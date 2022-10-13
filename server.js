@@ -2,8 +2,6 @@ const express = require("express");
 const cors = require('cors');
 require('dotenv').config()
 
-const PORT = process.env.PORT || 4000;
-
 const mongoose = require('mongoose');
 const Stocks = require("./schemas/stocks")
 
@@ -41,8 +39,8 @@ app.use("/", investments_history);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
-  app.listen(PORT, () => {
-    console.log(`Listening at ${PORT}`);
+  app.listen(process.env.PORT || 4000, () => {
+    console.log(`Connected`);
   });
 });
 
