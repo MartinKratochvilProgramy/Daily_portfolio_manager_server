@@ -37,7 +37,7 @@ app.use("/", stock_purchases);
 app.use("/", investments_history);
 
 app.get("/test", async (req, res) => { 
-  res.send("test")
+  res.json("test")
 })
 
 const db = mongoose.connection;
