@@ -11,6 +11,9 @@
   },
   "name": "server",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.16.0"
+  },
   "description": "Server for Portfolio management app",
   "main": "server.js",
   "author": "",
