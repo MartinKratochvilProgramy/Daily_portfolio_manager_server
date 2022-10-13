@@ -21,7 +21,7 @@ const app = express();
 app.use(cors()); // allow localhost 3000 (client) requests
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/portfolio", {
+mongoose.connect("mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
