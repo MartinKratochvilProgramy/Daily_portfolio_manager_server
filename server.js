@@ -36,6 +36,10 @@ app.use("/", stocks_history);
 app.use("/", stock_purchases);
 app.use("/", investments_history);
 
+app.get("/test", async (req, res) => { 
+  res.send("test")
+})
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
