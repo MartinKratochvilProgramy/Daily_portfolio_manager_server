@@ -4,6 +4,8 @@ const getCurrentDate = require("./getCurrentDate");
 
 const updateStock = async (username) => {
     // loop through all user's stocks and update prev close
+    // calculate total net worth and push it to netWorthHistory
+    // calculate relative change in net worth and push it to relativeChangeHistory
 
     const stocks = await Stocks.findOne({ username: username }).exec();
     let totalNetWorth = 0;

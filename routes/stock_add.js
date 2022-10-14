@@ -84,7 +84,7 @@ const stock_add = app.post("/stock_add", async (req, res) => {
   
     } else {
       // if stock history, push to existing db
-      const stockIndex = stocks.stocks.map(item => item.ticker).indexOf(ticker);
+      const stockIndex = stocks.stocks.map(item => item.ticker).indexOf(ticker); // index of given ticker, if not exists, stockIndex = 1
       if (stockIndex === -1) {
         // stock ticker does not exist, push new
         stocks.stocks.push({
