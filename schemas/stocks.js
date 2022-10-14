@@ -28,6 +28,12 @@ const stocksSchema = new mongoose.Schema({
         netWorth: Number
       }
     ],
+    relativeChangeHistory: [
+      {
+        date: String,
+        relativeChange: Number
+      }
+    ],
     totalInvestedHistory: [
       {
         date: String,

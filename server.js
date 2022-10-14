@@ -13,15 +13,18 @@ const stocks = require("./routes/stocks")
 const stocks_history = require("./routes/stocks_history")
 const stock_purchases = require("./routes/stock_purchases")
 const investments_history = require("./routes/investments_history")
+const relative_change = require("./routes/relative_change")
 
 const updateStock = require("./functions/updateStocks")
 
 const app = express();
 
+const PORT = process.env.PORT || 4000;
+
 app.use(cors()); // allow localhost 3000 (client) requests
 app.use(express.json());
 
-mongoose.connect("mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("mongodb://127.0.0.1:27017/portfolio", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
@@ -35,13 +38,14 @@ app.use("/", stocks);
 app.use("/", stocks_history);
 app.use("/", stock_purchases);
 app.use("/", investments_history);
+app.use("/", relative_change);
 
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
-  app.listen(process.env.PORT || 4000, () => {
-    console.log(`Connected`);
+  app.listen(PORT, () => {
+    console.log(`Connected @ ${PORT}`);
   });
 });
 
@@ -57,4 +61,4 @@ async function updateStocks () {
   console.log("-------------------");
 }
 
-setInterval(function () {updateStocks()}, 24 * 3600 * 1000);
+setInterval(function () {updateStocks()}, 1 * 20000 * 1000);

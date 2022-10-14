@@ -23,8 +23,16 @@ const updateStock = async (username) => {
       
       totalNetWorth += prevClose * conversionRateJson.chart.result[0].meta.previousClose * stocks.stocks[i].amount;
     }
-    
+
     const today = getCurrentDate();
+
+    // relative change in % compared to previous net worth
+    const relativeChange = (totalNetWorth / stocks.netWorthHistory[stocks.netWorthHistory.length - 1].netWorth - 1) * 100;
+    stocks.relativeChangeHistory.push({
+      date: today,
+      relativeChange: relativeChange
+    })
+
     stocks.netWorthHistory.push({
       date: today,
       netWorth: parseFloat((totalNetWorth).toFixed(2))
