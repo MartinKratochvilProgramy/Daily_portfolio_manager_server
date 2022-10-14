@@ -54,11 +54,15 @@ async function updateStocks () {
   // loops through all user accounts and updates prev close
   // prices for each stocks
   // function should run every weekday
-  const allStocks = await Stocks.find();
-  for (let i = 0; i < allStocks.length; i++) {
-    updateStock(allStocks[i].username);
+  const today = new Date();
+  if(today.getDay() !== 6 && today.getDay() !== 0) { 
+    // only run on weekdays
+    const allStocks = await Stocks.find();
+    for (let i = 0; i < allStocks.length; i++) {
+      updateStock(allStocks[i].username);
+    }
+    console.log("-------------------");
   }
-  console.log("-------------------");
 }
 
 setInterval(function () {updateStocks()}, 24 * 3600 * 1000);
