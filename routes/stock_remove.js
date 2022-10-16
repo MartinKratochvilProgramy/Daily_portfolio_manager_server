@@ -34,7 +34,11 @@ const stock_remove = app.post("/stock_remove", async (req, res) => {
 
     let newStocks;
     if (newAmount === 0) {
-      newStocks = stocks.stocks.filter((stock) => stock.ticker !== ticker)
+      newStocks = stocks.stocks.filter((stock) => stock.ticker !== ticker);
+      if (newStocks === []) {
+        console.log("empty");
+      }
+      console.log(newStocks);
     } else if (newAmount > 0) {
       newStocks = stocks.stocks;
       const objIndex = stocks.stocks.findIndex((stocks => stocks.ticker === ticker));
@@ -45,7 +49,7 @@ const stock_remove = app.post("/stock_remove", async (req, res) => {
   
     await stocks.save();
     await updateStocks(username);
-    res.json(stocks.stocks);
+    res.json(newStocks);
   });
 
   module.exports = stock_remove;
