@@ -2,7 +2,7 @@ const Stocks = require("../schemas/stocks");
 const fetch = require('node-fetch');
 const getCurrentDate = require("./getCurrentDate");
 
-const updateStock = async (username) => {
+const updateStocks = async (username) => {
     // loop through all user's stocks and update prev close
     // calculate total net worth and push it to netWorthHistory
     // calculate relative change in net worth and push it to relativeChangeHistory
@@ -28,13 +28,6 @@ const updateStock = async (username) => {
 
     const today = getCurrentDate();
 
-    // relative change in % compared to previous net worth
-    const relativeChange = (totalNetWorth / stocks.netWorthHistory[stocks.netWorthHistory.length - 1].netWorth - 1) * 100;
-    stocks.relativeChangeHistory.push({
-      date: today,
-      relativeChange: relativeChange
-    })
-
     stocks.netWorthHistory.push({
       date: today,
       netWorth: parseFloat((totalNetWorth).toFixed(2))
@@ -44,4 +37,4 @@ const updateStock = async (username) => {
     console.log("updating stocks at " + today + " for user " + username);
   }
 
-  module.exports = updateStock;
+  module.exports = updateStocks;

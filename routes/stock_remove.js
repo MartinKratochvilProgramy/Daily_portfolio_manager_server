@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
-const User = require("../schemas/user")
-const Stocks = require("../schemas/stocks")
-const updateStock = require("../functions/updateStocks")
+const User = require("../schemas/user");
+const Stocks = require("../schemas/stocks");
+const updateStocks = require("../functions/updateStocks");
 
 const stock_remove = app.post("/stock_remove", async (req, res) => {
     // remove stock from db
     const { authorization } = req.headers;
-    const stockItems = req.body.newStocks;
+    const ticker = req.body.ticker;
+    const newAmount = req.body.amount;
   
     // get username password from headers
     const [, token] = authorization.split(" ");
@@ -30,18 +31,21 @@ const stock_remove = app.post("/stock_remove", async (req, res) => {
       });
       return;
     }
+
+    let newStocks;
+    if (newAmount === 0) {
+      newStocks = stocks.stocks.filter((stock) => stock.ticker !== ticker)
+    } else if (newAmount > 0) {
+      newStocks = stocks.stocks;
+      const objIndex = stocks.stocks.findIndex((stocks => stocks.ticker === ticker));
+      newStocks[objIndex].amount = newAmount;
+    }
+
+    stocks.stocks = newStocks;
   
-    // save new array of stocks into db
-    stocks.stocks = stockItems;
     await stocks.save();
-  
-    // update net worth history
-    await updateStock(username);
-    
-    res.json({
-      message: "Saved to database succesful"
-      }
-    )
+    await updateStocks(username);
+    res.json(stocks.stocks);
   });
 
   module.exports = stock_remove;

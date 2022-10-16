@@ -15,7 +15,8 @@ const stock_purchases = require("./routes/stock_purchases")
 const investments_history = require("./routes/investments_history")
 const relative_change = require("./routes/relative_change")
 
-const updateStock = require("./functions/updateStocks")
+const updateStocks = require("./functions/updateStocks")
+const updateRelativeChange = require("./functions/updateRelativeChange")
 
 const app = express();
 
@@ -50,7 +51,7 @@ db.once("open", function () {
 });
 
 
-async function updateStocks () {
+async function updateAllUsersInfo () {
   // loops through all user accounts and updates prev close
   // prices for each stocks
   // function should run every weekday
@@ -59,10 +60,11 @@ async function updateStocks () {
     // only run on weekdays
     const allStocks = await Stocks.find();
     for (let i = 0; i < allStocks.length; i++) {
-      updateStock(allStocks[i].username);
+      updateStocks(allStocks[i].username);
+      updateRelativeChange(allStocks[i].username);
     }
     console.log("-------------------");
   }
 }
 
-setInterval(function () {updateStocks()}, 24 * 3600 * 1000);
+setInterval(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);
