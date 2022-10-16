@@ -48,7 +48,7 @@ const stock_remove = app.post("/stock_remove", async (req, res) => {
     stocks.stocks = newStocks;
   
     await stocks.save();
-    // update net worthsss
+    // update net worth
     await updateStocks(username);
     res.json(newStocks);
   });
