@@ -72,7 +72,7 @@ const stock_add = app.post("/stock_add", async (req, res) => {
         }],
         relativeChangeHistory: [{
           date: today,
-          relativeChange: 0
+          relativeChange: 1
         }],
         totalInvestedHistory: [{
           date: today,
