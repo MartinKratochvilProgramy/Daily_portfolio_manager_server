@@ -26,7 +26,7 @@ app.use(cors()); // allow localhost 3000 (client) requests
 app.use(express.json());
 // mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority
 // mongodb://localhost:27017/portfolio
-mongoose.connect("mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("mongodb://localhost:27017/portfolio", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
@@ -61,11 +61,12 @@ async function updateAllUsersInfo () {
     // only run on weekdays
     const allStocks = await Stocks.find();
     for (let i = 0; i < allStocks.length; i++) {
-      updateStocks(allStocks[i].username);
-      updateRelativeChange(allStocks[i].username);
+      await updateStocks(allStocks[i].username)
+      await updateRelativeChange(allStocks[i].username)
     }
     console.log("-------------------");
   }
 }
 
+updateAllUsersInfo();
 setInterval(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);
