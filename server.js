@@ -24,7 +24,8 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors()); // allow localhost 3000 (client) requests
 app.use(express.json());
-
+// mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority
+// mongodb://localhost:27017/portfolio
 mongoose.connect("mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -67,4 +68,4 @@ async function updateAllUsersInfo () {
   }
 }
 
-setInterval(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);
+setInterval(function () {updateAllUsersInfo()}, 1 * 60 * 1000);
