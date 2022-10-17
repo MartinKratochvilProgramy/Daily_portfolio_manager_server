@@ -14,7 +14,7 @@ const updateRelativeChange = async (username) => {
     const totalNetWorth = stocks.netWorthHistory[stocks.netWorthHistory.length - 1].netWorth;
     const previousNetWorth = stocks.netWorthHistory[stocks.netWorthHistory.length - 2].netWorth;
     // relative change in % compared to previous net worth
-    const relativeChange = stocks.relativeChangeHistory[stocks.relativeChangeHistory - 1].relativeChange * (totalNetWorth / previousNetWorth);
+    const relativeChange = stocks.relativeChangeHistory[stocks.relativeChangeHistory.length - 1].relativeChange * (totalNetWorth / previousNetWorth);
     stocks.relativeChangeHistory.push({
         date: today,
         relativeChange: relativeChange
