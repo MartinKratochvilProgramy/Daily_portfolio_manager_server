@@ -70,5 +70,4 @@ async function updateAllUsersInfo () {
   }
 }
 
-// updateAllUsersInfo();
 // setInterv  al(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);
