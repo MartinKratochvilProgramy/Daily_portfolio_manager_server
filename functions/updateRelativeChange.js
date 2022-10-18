@@ -22,9 +22,9 @@ const updateRelativeChange = async (username) => {
 
     await stocks.save()
   
-    console.log("updating relative change at " + today + " for user " + username);
+    console.log("updating relative change at for user " + username);
 
-    const response = "updating relative change at " + today + " for user " + username;
+    const response = "updating relative change at for user " + username;
     return response;
 }
 

@@ -20,6 +20,7 @@ const update = app.post("/update", async (req, res) => {
     let response = [];
 
     const today = new Date();
+    response.push(`Updating stock info at day ${today}`);
     if(today.getDay() !== 6 && today.getDay() !== 0) { 
       // only run on weekdays
       const allStocks = await Stocks.find();

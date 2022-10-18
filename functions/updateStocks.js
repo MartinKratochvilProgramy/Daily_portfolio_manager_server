@@ -34,9 +34,9 @@ const updateStocks = async (username) => {
     })
     await stocks.save()
 
-    console.log("updating stocks at " + today + " for user " + username);
+    console.log("updating stocks at for user " + username);
   
-    const response = "updating stocks at " + today + " for user " + username;
+    const response = "updating stocks at for user " + username;
     return response;
   }
 
