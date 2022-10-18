@@ -70,5 +70,5 @@ async function updateAllUsersInfo () {
   }
 }
 
-updateAllUsersInfo();
-setInterval(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);
+// updateAllUsersInfo();
+// setInterval(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);
