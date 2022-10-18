@@ -7,7 +7,15 @@ const Stocks = require("../schemas/stocks")
 
 const update = app.post("/update", async (req, res) => {
   
-    const { input } = req.body;
+    const { password } = req.body;
+
+    if (password !== process.env.SECRET) {
+      res.status(403);
+      res.json({
+        message: "Failed, wrong credentials"
+      })
+      return;
+    }
 
     let response = [];
 
@@ -28,13 +36,9 @@ const update = app.post("/update", async (req, res) => {
     //   response.push("-------------------");
     // }
 
-    const salt = process.env.SECRET || "no process.env.SECRET found";
-
     res.json({
       message: "Success",
-      input: input,
       response: response,
-      salt: salt
     });
 
     //res.send({ title: 'GeeksforGeeks' });
