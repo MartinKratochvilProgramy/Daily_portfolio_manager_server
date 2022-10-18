@@ -33,8 +33,11 @@ const updateStocks = async (username) => {
       netWorth: parseFloat((totalNetWorth).toFixed(2))
     })
     await stocks.save()
-  
+
     console.log("updating stocks at " + today + " for user " + username);
+  
+    const response = "updating stocks at " + today + " for user " + username;
+    return response;
   }
 
   module.exports = updateStocks;

@@ -23,6 +23,9 @@ const updateRelativeChange = async (username) => {
     await stocks.save()
   
     console.log("updating relative change at " + today + " for user " + username);
+
+    const response = "updating relative change at " + today + " for user " + username;
+    return response;
 }
 
 module.exports = updateRelativeChange;
