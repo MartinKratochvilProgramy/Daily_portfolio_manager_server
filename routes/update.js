@@ -24,12 +24,14 @@ const update = app.post("/update", async (req, res) => {
       // only run on weekdays
       const allStocks = await Stocks.find();
       for (let i = 0; i < allStocks.length; i++) {
-        // await updateStocks(allStocks[i].username);
-        // await updateRelativeChange(allStocks[i].username);
-        const stocksResponse = await updateStocks(allStocks[i].username);
-        response.push(stocksResponse);
-        const relativeChangeResponse = await updateRelativeChange(allStocks[i].username);
-        response.push(relativeChangeResponse);
+        try {
+          const stocksResponse = await updateStocks(allStocks[i].username);
+          response.push(stocksResponse);
+          const relativeChangeResponse = await updateRelativeChange(allStocks[i].username);
+          response.push(relativeChangeResponse);
+        } catch (error) {
+          response.push(`ERROR: ${error} USER: ${allStocks[i].username}`)
+        }
       }
       response.push("-------------------");
     }
