@@ -14,6 +14,7 @@ const stocks_history = require("./routes/stocks_history")
 const stock_purchases = require("./routes/stock_purchases")
 const investments_history = require("./routes/investments_history")
 const relative_change = require("./routes/relative_change")
+const update = require("./routes/update")
 
 const updateStocks = require("./functions/updateStocks")
 const updateRelativeChange = require("./functions/updateRelativeChange")
@@ -41,6 +42,7 @@ app.use("/", stocks_history);
 app.use("/", stock_purchases);
 app.use("/", investments_history);
 app.use("/", relative_change);
+app.use("/", update);
 
 
 const db = mongoose.connection;
