@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const bcrypt = require("bcrypt");
+const getCurrentDate = require("../functions/getCurrentDate");
 const updateStocks = require("../functions/updateStocks");
 const updateRelativeChange = require("../functions/updateRelativeChange");
 const Stocks = require("../schemas/stocks")
@@ -20,7 +20,7 @@ const update = app.post("/update", async (req, res) => {
     let response = [];
 
     const today = new Date();
-    response.push(`Updating stock info at day ${today}`);
+    response.push(`Updating stock info at day ${getCurrentDate()}`);
     if(today.getDay() !== 6 && today.getDay() !== 0) { 
       // only run on weekdays
       const allStocks = await Stocks.find();
