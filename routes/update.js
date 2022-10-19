@@ -24,18 +24,18 @@ const update = app.post("/update", async (req, res) => {
     response.push(`Updating stock info at day ${getCurrentDate()}`);
     if(today.getDay() !== 6 && today.getDay() !== 0) { 
       // only run on weekdays
-      const allStocks = await Stocks.find();
-      for (let i = 0; i < allStocks.length; i++) {
+      const allUsers = await Stocks.find();
+      for (let i = 0; i < allUsers.length; i++) {
         // loop through all users and update stock info
         // updateStocks and updateRelativeChange returns response
         // response is saved in response = [] and sent to client
         try {
-          const stocksResponse = await updateStocks(allStocks[i].username);
+          const stocksResponse = await updateStocks(allUsers[i].username);
           response.push(stocksResponse);
-          const relativeChangeResponse = await updateRelativeChange(allStocks[i].username);
+          const relativeChangeResponse = await updateRelativeChange(allUsers[i].username);
           response.push(relativeChangeResponse);
         } catch (error) {
-          response.push(`ERROR: ${error} USER: ${allStocks[i].username}`)
+          response.push(`ERROR: ${error} USER: ${allUsers[i].username}`)
         }
       }
       response.push("-------------------");
