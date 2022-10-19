@@ -6,7 +6,8 @@ const updateRelativeChange = require("../functions/updateRelativeChange");
 const Stocks = require("../schemas/stocks")
 
 const update = app.post("/update", async (req, res) => {
-  
+    // after auth run through all user's stocks and update current price,
+    // net worth and relative change
     const { password } = req.body;
 
     if (password !== process.env.SECRET) {
@@ -25,6 +26,9 @@ const update = app.post("/update", async (req, res) => {
       // only run on weekdays
       const allStocks = await Stocks.find();
       for (let i = 0; i < allStocks.length; i++) {
+        // loop through all users and update stock info
+        // updateStocks and updateRelativeChange returns response
+        // response is saved in response = [] and sent to client
         try {
           const stocksResponse = await updateStocks(allStocks[i].username);
           response.push(stocksResponse);

@@ -29,7 +29,8 @@ const login = app.post("/login", async (req, res) => {
     res.json({
       message: "Success",
       username: username,
-      password: user.password
+      password: user.password,
+      settings: user.settings
     });
   });
 

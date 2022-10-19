@@ -15,6 +15,7 @@ const stock_purchases = require("./routes/stock_purchases")
 const investments_history = require("./routes/investments_history")
 const relative_change = require("./routes/relative_change")
 const update = require("./routes/update")
+const set_theme = require("./routes/set_theme")
 
 const updateStocks = require("./functions/updateStocks")
 const updateRelativeChange = require("./functions/updateRelativeChange")
@@ -27,11 +28,10 @@ app.use(cors()); // allow localhost 3000 (client) requests
 app.use(express.json());
 // mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority
 // mongodb://localhost:27017/portfolio
-mongoose.connect("mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("mongodb://localhost:27017/portfolio", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
-
 
 app.use("/", login);
 app.use("/", register);
@@ -43,6 +43,7 @@ app.use("/", stock_purchases);
 app.use("/", investments_history);
 app.use("/", relative_change);
 app.use("/", update);
+app.use("/", set_theme);
 
 
 const db = mongoose.connection;
@@ -70,4 +71,4 @@ async function updateAllUsersInfo () {
   }
 }
 
-// setInterv  al(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);
+// setInterval(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);
