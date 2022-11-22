@@ -17,7 +17,7 @@ const updateStocks = async (username) => {
       const stockInfoJson = await stockInfo.json()
   
       // get conversion rate from set currency -> user currency
-      // if they === currency conversion is 1
+      // if stock currency === user settings currency, conversion is 1
       let conversionRate;
       if (stockInfoJson.chart.result[0].meta.currency === user.settings.currency) {
         conversionRate = 1;
