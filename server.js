@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require('cors');
 require('dotenv').config()
 const mongoose = require('mongoose');
-const updateStocks = require('./functions/updateStocks')
 
 const login = require("./routes/login")
 const register = require("./routes/register")
