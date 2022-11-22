@@ -46,7 +46,7 @@ const update = app.post("/update", async (req, res) => {
     //   response: response,
     // });
 
-    res.json("update")
+    res.send("update")
   });
 
   module.exports = update;
