@@ -5,7 +5,7 @@ const updateStocks = require("../functions/updateStocks");
 const updateRelativeChange = require("../functions/updateRelativeChange");
 const Stocks = require("../schemas/stocks")
 
-const update = app.post("/update", async (req, res) => {
+const update = app.get("/update", async (req, res) => {
     // after auth run through all user's stocks and update current price,
     // net worth and relative change
     // const { password } = req.body;
@@ -46,7 +46,7 @@ const update = app.post("/update", async (req, res) => {
     //   response: response,
     // });
 
-    res.json("update")
+    res.json("hello world");
   });
 
   module.exports = update;
