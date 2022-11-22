@@ -14,7 +14,6 @@ const investments_history = require("./routes/investments_history")
 const relative_change = require("./routes/relative_change")
 const update = require("./routes/update")
 const set_theme = require("./routes/set_theme")
-const test = require("./routes/test")
 
 const app = express();
 
@@ -40,7 +39,6 @@ app.use("/", investments_history);
 app.use("/", relative_change);
 app.use("/", update);
 app.use("/", set_theme);
-app.use("/", test);
 
 
 const db = mongoose.connection;
