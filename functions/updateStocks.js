@@ -1,4 +1,5 @@
 const Stocks = require("../schemas/stocks");
+const User = require("../schemas/user");
 const fetch = require('node-fetch');
 const getCurrentDate = require("./getCurrentDate");
 
@@ -8,6 +9,8 @@ const updateStocks = async (username) => {
     // calculate relative change in net worth and push it to relativeChangeHistory
 
     const stocks = await Stocks.findOne({ username: username }).exec();
+    const user = await User.findOne({ username: username }).exec();
+    
     let totalNetWorth = 0;
     for (let i = 0; i < stocks.stocks.length; i++) {
       const stockInfo = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stocks.stocks[i].ticker}`)
@@ -15,16 +18,27 @@ const updateStocks = async (username) => {
   
       // get conversion rate from set currency -> dollar
       // TODO: add a way for the user to select his own currency
-      const conversionRate = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stockInfoJson.chart.result[0].meta.currency}USD=X`)
-      const conversionRateJson = await conversionRate.json();
-  
+      let conversionRate;
+      if (stockInfoJson.chart.result[0].meta.currency === user.settings.currency) {
+        conversionRate = 1;
+      } else {
+        const conversionRateSrc = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stockInfoJson.chart.result[0].meta.currency}${user.settings.currency}=X`)
+        const conversionRateJson = await conversionRateSrc.json();
+        conversionRate = conversionRateJson.chart.result[0].meta.previousClose;
+      }
+      
       // prev close value of stock in set currency
       // TODO: add a way for the user to select his own currency
-      const prevClose = (stockInfoJson.chart.result[0].meta.previousClose * conversionRateJson.chart.result[0].meta.previousClose).toFixed(2);
+      const prevClose = (stockInfoJson.chart.result[0].meta.previousClose * conversionRate).toFixed(2);
       stocks.stocks[i].prevClose = prevClose;
+      console.log(stocks.stocks[i].ticker);
+      console.log(prevClose);
+
       
-      totalNetWorth += prevClose * conversionRateJson.chart.result[0].meta.previousClose * stocks.stocks[i].amount;
+      totalNetWorth += prevClose * stocks.stocks[i].amount;
     }
+
+    console.log(totalNetWorth);
 
     const today = getCurrentDate();
 

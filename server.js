@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 require('dotenv').config()
 const mongoose = require('mongoose');
+const updateStocks = require('./functions/updateStocks')
 
 const login = require("./routes/login")
 const register = require("./routes/register")
@@ -46,7 +47,6 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
   app.listen(PORT, () => {
     console.log(`Connected @ ${PORT}`);
-    console.log("Hello world");
   });
 });
 
