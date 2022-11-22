@@ -16,8 +16,8 @@ const updateStocks = async (username) => {
       const stockInfo = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stocks.stocks[i].ticker}`)
       const stockInfoJson = await stockInfo.json()
   
-      // get conversion rate from set currency -> dollar
-      // TODO: add a way for the user to select his own currency
+      // get conversion rate from set currency -> user currency
+      // if they === currency conversion is 1
       let conversionRate;
       if (stockInfoJson.chart.result[0].meta.currency === user.settings.currency) {
         conversionRate = 1;
@@ -27,18 +27,11 @@ const updateStocks = async (username) => {
         conversionRate = conversionRateJson.chart.result[0].meta.previousClose;
       }
       
-      // prev close value of stock in set currency
-      // TODO: add a way for the user to select his own currency
       const prevClose = (stockInfoJson.chart.result[0].meta.previousClose * conversionRate).toFixed(2);
       stocks.stocks[i].prevClose = prevClose;
-      console.log(stocks.stocks[i].ticker);
-      console.log(prevClose);
-
       
       totalNetWorth += prevClose * stocks.stocks[i].amount;
     }
-
-    console.log(totalNetWorth);
 
     const today = getCurrentDate();
 
