@@ -46,7 +46,7 @@ const update = app.post("/update", async (req, res) => {
     //   response: response,
     // });
 
-    res.send({ title: 'GeeksforGeeks' });
+    res.json("update")
   });
 
   module.exports = update;
