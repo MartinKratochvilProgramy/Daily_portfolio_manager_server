@@ -49,7 +49,7 @@ db.once("open", function () {
   });
 });
 
-setInterval(function () {console.log("run update")}, 2000)
+console.log("Hello world");
 
 // async function updateAllUsersInfo () {
 //   // loops through all user accounts and updates prev close
