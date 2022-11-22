@@ -46,10 +46,10 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
   app.listen(PORT, () => {
     console.log(`Connected @ ${PORT}`);
+    console.log("Hello world");
   });
 });
 
-console.log("Hello world");
 
 // async function updateAllUsersInfo () {
 //   // loops through all user accounts and updates prev close
