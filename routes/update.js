@@ -8,7 +8,7 @@ const Stocks = require("../schemas/stocks")
 const update = app.post("/update", async (req, res) => {
     // after auth run through all user's stocks and update current price,
     // net worth and relative change
-    const { password } = req.body;
+    const { password } = req.headers;
 
     if (password !== process.env.SECRET) {
       res.status(403);
