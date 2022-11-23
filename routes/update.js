@@ -13,7 +13,7 @@ const update = app.post("/update", async (req, res) => {
     if (password !== process.env.SECRET) {
       res.status(403);
       res.json({
-        message: "Failed, wrong credentials: " + password + " = " + process.env.SECRET
+        message: "Failed, wrong credentials"
       })
       return;
     }
