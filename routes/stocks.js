@@ -6,7 +6,7 @@ const Stocks = require("../schemas/stocks")
 const stocks = app.get("/stocks", async (req, res) => {
     // send stocks to client
     const { authorization } = req.headers;
-  
+
     // get username password from headers
     const [, token] = authorization.split(" ");
     const [username, password] = token.split(":");
@@ -35,11 +35,12 @@ const stocks = app.get("/stocks", async (req, res) => {
         stockObject._id = stocks[i]._id;
 
         const ticker = stockObject.ticker;
-        const index = purchaseHistory.findIndex(stock => stock.ticker === ticker);
+        const index = purchaseHistory.findIndex(stock => stock.ticker === ticker);  // index of ticker in purchaseHistory
         
         stockObject.firstPurchase = purchaseHistory[index].purchases[0].date;                                          // first known purchase history
         stockObject.lastPurchase = purchaseHistory[index].purchases[purchaseHistory[index].purchases.length - 1].date; // last known purchase history
-
+        stockObject.purchaseHistory = purchaseHistory[index].purchases;
+        
         response.push(stockObject)
       }
       res.json(response);
