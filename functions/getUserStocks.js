@@ -1,6 +1,8 @@
 const Stocks = require("../schemas/stocks");
 
 async function getUserStocks(username) {
+    // returns array of formatter user stocks
+    // [{ticker, amount, prevClose, _id, firstPurchase, lastPurchase}]
 
     const foundStocks = await Stocks.findOne({ username: username }).exec();
 
