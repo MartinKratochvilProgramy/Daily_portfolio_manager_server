@@ -39,7 +39,7 @@ const stock_add = app.post("/stock_add", async (req, res) => {
 
     // get conversion rate from set currency -> user currency
     // if stock currency === user settings currency, conversion is 1
-    let conversionRate;
+    let conversionRate = 1;
     if (stockInfoJson.chart.result[0].meta.currency === user.settings.currency) {
       conversionRate = 1;
     } else {
