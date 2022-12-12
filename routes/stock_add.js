@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const User = require("../schemas/user")
 const Stocks = require("../schemas/stocks")
 const getCurrentDate = require("../functions/getCurrentDate");
+const getUserStocks = require("../functions/getUserStocks");
 
 const stock_add = app.post("/stock_add", async (req, res) => {
     // add stock to db
@@ -140,7 +141,8 @@ const stock_add = app.post("/stock_add", async (req, res) => {
       }
       await stocks.save();
     }
-    res.json(stocks.stocks);
+    const userStocks = await getUserStocks(username);
+    res.json(userStocks);
   });
 
   module.exports = stock_add;
