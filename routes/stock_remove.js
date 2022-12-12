@@ -49,7 +49,6 @@ const stock_remove = app.post("/stock_remove", async (req, res) => {
     await updateStocks(username);
 
     const userStocks = await getUserStocks(username);
-
     res.json(userStocks);
   });
 
