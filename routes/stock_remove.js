@@ -3,6 +3,7 @@ const app = express();
 const User = require("../schemas/user");
 const Stocks = require("../schemas/stocks");
 const updateStocks = require("../functions/updateStocks");
+const getUserStocks = require("../functions/getUserStocks");
 
 const stock_remove = app.post("/stock_remove", async (req, res) => {
     // remove stock from db
@@ -46,7 +47,10 @@ const stock_remove = app.post("/stock_remove", async (req, res) => {
     await stocks.save();
     // update net worth
     await updateStocks(username);
-    res.json(newStocks);
+
+    const userStocks = await getUserStocks(username);
+
+    res.json(userStocks);
   });
 
   module.exports = stock_remove;
