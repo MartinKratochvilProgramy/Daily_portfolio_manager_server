@@ -36,14 +36,20 @@ const stock_add = app.post("/stock_add", async (req, res) => {
       });
       return;
     }
-    // get conversion rate from set currency -> dollar
-    // TODO: add a way for the user to select his own currency
-    const conversionRate = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stockInfoJson.chart.result[0].meta.currency}USD=X`)
-    const conversionRateJson = await conversionRate.json();
+
+    // get conversion rate from set currency -> user currency
+    // if stock currency === user settings currency, conversion is 1
+    let conversionRate;
+    if (stockInfoJson.chart.result[0].meta.currency === user.settings.currency) {
+      conversionRate = 1;
+    } else {
+      const conversionRateSrc = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stockInfoJson.chart.result[0].meta.currency}${user.settings.currency}=X`)
+      const conversionRateJson = await conversionRateSrc.json();
+      conversionRate = conversionRateJson.chart.result[0].meta.previousClose;
+    }
     
     // current price of stock in set currency
-    // TODO: add a way for the user to select his own currency
-    const value = (stockInfoJson.chart.result[0].meta.regularMarketPrice * conversionRateJson.chart.result[0].meta.regularMarketPrice).toFixed(2);
+    const value = (stockInfoJson.chart.result[0].meta.regularMarketPrice * conversionRate).toFixed(2);
     
     const stocks = await Stocks.findOne({ username: username }).exec();
     if (!stocks) {
