@@ -86,7 +86,9 @@ const stock_add = app.post("/stock_add", async (req, res) => {
           total: (value * amount).toFixed(2)
         }]
       });
-      res.json([{ticker: ticker, amount: amount, prevClose: value}]);
+      const userStocks = await getUserStocks(username);
+      res.json(userStocks);
+
       return;
   
     } else {
