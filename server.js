@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 require('dotenv').config()
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const login = require("./routes/login")
 const register = require("./routes/register")
@@ -21,9 +22,10 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors()); // allow localhost 3000 (client) requests
 app.use(express.json());
+app.use(cookieParser());
 // mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority
 // mongodb://localhost:27017/portfolio
-mongoose.connect("mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("mongodb://localhost:27017/portfolio", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
@@ -55,7 +57,7 @@ db.once("open", function () {
 //   // prices for each stocks
 //   // function should run every weekday
 //   const today = new Date();
-//   if(today.getDay() !== 6 && today.getDay() !== 0) { 
+//   if(today.getDay() !== 6 && today.getDay() !== 0) {
 //     // only run on weekdays
 //     const allStocks = await Stocks.find();
 //     for (let i = 0; i < allStocks.length; i++) {
