@@ -3,7 +3,7 @@ const app = express();
 const getCurrentDate = require("../utils/getCurrentDate");
 const updateStocks = require("../utils/updateStocks");
 const updateRelativeChange = require("../utils/updateRelativeChange");
-const Stocks = require("../schemas/stocks")
+const Stocks = require("../schemas/stocks");
 
 const update = app.post("/update", async (req, res) => {
   // after auth run through all user's stocks and update current price,

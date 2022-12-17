@@ -2,17 +2,20 @@ const express = require("express");
 const app = express();
 const User = require("../schemas/user")
 const getUserStocks = require("../utils/getUserStocks");
+const { verifyToken } = require("../utils/jwt");
 
 const stocks = app.get("/stocks", async (req, res) => {
   // send stocks to client
   const { authorization } = req.headers;
 
   // get username password from headers
-  const [, token] = authorization.split(" ");
-  const [username, password] = token.split(":");
+  const [, auth] = authorization.split(" ");
+  const [username, token] = auth.split(":");
   // auth user, if not found send back 403 err
-  const user = await User.findOne({ username }).exec();
-  if (!user || user.password !== password) {
+  const decoded = verifyToken(token);
+  const user = await User.findById(decoded.id).exec();
+
+  if (!user) {
     res.status(403);
     res.json({
       message: "Invalid access",
