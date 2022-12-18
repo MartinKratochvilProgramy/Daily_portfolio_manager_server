@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const User = require("../schemas/user")
+const User = require("../models/user")
 
 const validate_user = app.post("/validate_user", async (req, res) => {
     // create user account, return 500 err if no password or username given

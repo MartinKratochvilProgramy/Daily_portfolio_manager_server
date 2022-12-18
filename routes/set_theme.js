@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const User = require("../schemas/user");
+const User = require("../models/user");
 const { verifyToken } = require("../utils/jwt");
 
 const set_theme = app.post("/set_theme", async (req, res) => {

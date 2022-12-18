@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const fetch = require('node-fetch');
-const User = require("../schemas/user")
-const Stocks = require("../schemas/stocks")
+const User = require("../models/user")
+const Stocks = require("../models/stocks")
 const getCurrentDate = require("../utils/getCurrentDate");
 const getUserStocks = require("../utils/getUserStocks");
 const { verifyToken } = require("../utils/jwt");

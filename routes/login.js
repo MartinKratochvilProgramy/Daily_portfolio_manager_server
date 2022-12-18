@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const bcrypt = require("bcrypt");
-const User = require("../schemas/user")
+const User = require("../models/user")
 const { createToken } = require('../utils/jwt')
 
 const login = app.post("/login", async (req, res, next) => {

@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-const User = require("../schemas/user")
-const Stocks = require("../schemas/stocks");
+const User = require("../models/user")
+const Stocks = require("../models/stocks");
 const { verifyToken } = require("../utils/jwt");
 
 const investments_history = app.get("/investments_history", async (req, res) => {

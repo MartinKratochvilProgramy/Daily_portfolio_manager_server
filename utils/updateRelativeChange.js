@@ -1,4 +1,4 @@
-const Stocks = require("../schemas/stocks");
+const Stocks = require("../models/stocks");
 const fetch = require('node-fetch');
 const getCurrentDate = require("./getCurrentDate");
 
@@ -21,7 +21,7 @@ const updateRelativeChange = async (username) => {
     })
 
     await stocks.save()
-  
+
     console.log("updating relative change for user " + username);
 
     const response = "updating relative change for user " + username;

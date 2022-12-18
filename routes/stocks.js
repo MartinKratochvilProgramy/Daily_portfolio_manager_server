@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const User = require("../schemas/user")
+const User = require("../models/user")
 const getUserStocks = require("../utils/getUserStocks");
 const { verifyToken } = require("../utils/jwt");
 
