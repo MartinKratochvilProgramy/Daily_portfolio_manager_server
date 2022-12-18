@@ -13,7 +13,7 @@ const stock_add = app.post("/stock_add", async (req, res) => {
   const ticker = stockItems.ticker.toUpperCase();
   const amount = stockItems.amount;
 
-  const { authorization } = req.headers;  // username, password
+  const { authorization } = req.headers;
   // get username password from headers
   const [, auth] = authorization.split(" ");
   const [username, token] = auth.split(":");

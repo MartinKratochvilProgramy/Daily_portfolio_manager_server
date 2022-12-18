@@ -15,12 +15,13 @@ const investments_history = require("./routes/investments_history")
 const relative_change = require("./routes/relative_change")
 const update = require("./routes/update")
 const set_theme = require("./routes/set_theme")
+const validate_user = require("./routes/validate_user")
 
 const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-app.use(cors()); // allow localhost 3000 (client) requests
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 // mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority
@@ -41,6 +42,7 @@ app.use("/", investments_history);
 app.use("/", relative_change);
 app.use("/", update);
 app.use("/", set_theme);
+app.use("/", validate_user);
 
 
 const db = mongoose.connection;
