@@ -8,8 +8,6 @@ const register = app.post("/register", async (req, res) => {
   // create user account, return 500 err if no password or username given
   let { username, password, settings } = req.body;
 
-  console.log(settings);
-
   // find if user exists, if yes send 500 err
   const existingUser = await User.findOne({ username }).exec();
   if (existingUser) {
@@ -29,8 +27,6 @@ const register = app.post("/register", async (req, res) => {
   const accessToken = createToken({
     id: user._id,
   })
-
-  console.log(accessToken);
 
   res.json({
     message: "Success",

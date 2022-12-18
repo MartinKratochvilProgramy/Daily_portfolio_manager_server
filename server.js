@@ -52,22 +52,3 @@ db.once("open", function () {
     console.log(`Connected @ ${PORT}`);
   });
 });
-
-
-// async function updateAllUsersInfo () {
-//   // loops through all user accounts and updates prev close
-//   // prices for each stocks
-//   // function should run every weekday
-//   const today = new Date();
-//   if(today.getDay() !== 6 && today.getDay() !== 0) {
-//     // only run on weekdays
-//     const allStocks = await Stocks.find();
-//     for (let i = 0; i < allStocks.length; i++) {
-//       await updateStocks(allStocks[i].username)
-//       await updateRelativeChange(allStocks[i].username)
-//     }
-//     console.log("-------------------");
-//   }
-// }
-
-// setInterval(function () {updateAllUsersInfo()}, 24 * 3600 * 1000);

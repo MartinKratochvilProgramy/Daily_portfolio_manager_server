@@ -8,7 +8,6 @@ const validate_user = app.post("/validate_user", async (req, res) => {
 
     // find if user exists, if yes send 500 err
     const existingUser = await User.findOne({ username }).exec();
-    console.log(existingUser);
     if (existingUser) {
         res.status(500);
         res.json({ message: 'User already exists' });
