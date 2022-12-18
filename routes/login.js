@@ -35,7 +35,6 @@ const login = app.post("/login", async (req, res, next) => {
     .json({
       message: "Success",
       username: username,
-      password: user.password,
       settings: user.settings,
       token: accessToken
     });

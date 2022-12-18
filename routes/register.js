@@ -31,7 +31,6 @@ const register = app.post("/register", async (req, res) => {
   res.json({
     message: "Success",
     username: username,
-    password: password,
     settings: settings,
     token: accessToken
   });
