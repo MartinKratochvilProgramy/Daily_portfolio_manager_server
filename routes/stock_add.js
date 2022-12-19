@@ -3,11 +3,13 @@ const app = express();
 const fetch = require('node-fetch');
 const User = require("../models/user")
 const Stocks = require("../models/stocks")
-const getCurrentDate = require("../utils/getCurrentDate");
-const getUserStocks = require("../utils/getUserStocks");
+const getUserStocks = require("../middleware/getUserStocks");
 const { verifyToken } = require("../utils/jwt");
+const CustomError = require('../models/CustomError')
+const { createNewStock, addToExistingStock } = require('../middleware/stockAdd');
+const getConversionRate = require('../utils/getConversionRate');
 
-const stock_add = app.post("/stock_add", async (req, res) => {
+const stock_add = app.post("/stock_add", async (req, res, next) => {
   // add stock to db
   const stockItems = req.body.newStock;   // new stock object
   const ticker = stockItems.ticker.toUpperCase();
@@ -17,138 +19,50 @@ const stock_add = app.post("/stock_add", async (req, res) => {
   // get username password from headers
   const [, auth] = authorization.split(" ");
   const [username, token] = auth.split(":");
-  // auth user, if not found send back 403 err
-  const decoded = verifyToken(token);
-  const user = await User.findById(decoded.id).exec();
 
-  if (!user) {
-    console.log(user._id, decoded.id);
-    res.status(403);
-    res.json({
-      message: "Invalid access",
-    });
-    return;
-  }
+  try {
+    const decoded = verifyToken(token);
+    const user = await User.findById(decoded.id).exec();
 
-  const today = getCurrentDate();
-  // get stocks ticker, if not exists, return
-  const stockInfo = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`)
-  const stockInfoJson = await stockInfo.json()
-  if (!stockInfoJson.chart.result) {
-    res.status(403);
-    res.json({
-      message: "Ticker not found",
-    });
-    return;
-  }
-
-  // get conversion rate from set currency -> user currency
-  // if stock currency === user settings currency, conversion is 1
-  let conversionRate = 1;
-  if (stockInfoJson.chart.result[0].meta.currency === user.settings.currency) {
-    conversionRate = 1;
-  } else {
-    const conversionRateSrc = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stockInfoJson.chart.result[0].meta.currency}${user.settings.currency}=X`)
-    const conversionRateJson = await conversionRateSrc.json();
-    conversionRate = conversionRateJson.chart.result[0].meta.previousClose;
-  }
-
-  // current price of stock in set currency
-  const value = (stockInfoJson.chart.result[0].meta.regularMarketPrice * conversionRate).toFixed(2);
-
-  const stocks = await Stocks.findOne({ username: username }).exec();
-  if (!stocks) {
-    // if no stock history (first commit), create new object
-    await Stocks.create({
-      username: username,
-      stocks: [{
-        ticker: ticker,
-        amount: amount,
-        prevClose: value,
-      }],
-      purchaseHistory: [{
-        ticker: ticker,
-        purchases: [
-          {
-            date: today,
-            amount: amount,
-            currentPrice: value,
-            totalAmount: (value * amount).toFixed(2),
-          }
-        ]
-      }],
-      netWorthHistory: [{
-        date: today,
-        netWorth: (value * amount).toFixed(2)
-      }],
-      relativeChangeHistory: [{
-        date: today,
-        relativeChange: 1
-      }],
-      totalInvestedHistory: [{
-        date: today,
-        total: (value * amount).toFixed(2)
-      }]
-    });
-    const userStocks = await getUserStocks(username);
-    res.json(userStocks);
-
-    return;
-
-  } else {
-    // if stock history, push to existing db
-    const stockIndex = stocks.stocks.map(item => item.ticker).indexOf(ticker); // index of given ticker, if not exists, stockIndex = 1
-    if (stockIndex === -1) {
-      // stock ticker does not exist, push new
-      stocks.stocks.push({
-        ticker: ticker,
-        amount: amount,
-        prevClose: value,
+    if (!user) {
+      res.status(403);
+      res.json({
+        message: "Invalid access",
       });
-      stocks.purchaseHistory.push({
-        ticker: ticker,
-        purchases: [
-          {
-            date: today,
-            amount: amount,
-            currentPrice: value,
-            totalAmount: (value * amount).toFixed(2),
-          }
-        ]
-      })
-    } else {
-      // stock ticker exists, add amount to existing object
-      stocks.stocks[stockIndex].amount += parseInt(amount);
-      stocks.purchaseHistory[stockIndex].purchases.push({
-        ticker: ticker,
-        date: today,
-        amount: amount,
-        currentPrice: value,
-        totalAmount: (value * amount).toFixed(2),
-      });
+      return;
     }
-    // increase total net worth by invested amount
-    stocks.netWorthHistory.push({
-      date: today,
-      netWorth: (parseFloat(stocks.netWorthHistory[stocks.netWorthHistory.length - 1].netWorth) + parseFloat((value * amount))).toFixed(2)
-    })
 
-    // add purchase to investments history
-    const investedIndex = stocks.totalInvestedHistory.map(item => item.date).indexOf(today);
-    if (investedIndex === -1) {
-      // if no purchase was made today
-      stocks.totalInvestedHistory.push({
-        date: today,
-        total: (stocks.totalInvestedHistory[stocks.totalInvestedHistory.length - 1].total + parseFloat((value * amount))).toFixed(2)
-      })
-    } else {
-      // if purchase was made today, increment in existing date
-      stocks.totalInvestedHistory[investedIndex].total += parseFloat((value * amount).toFixed(2));
+    // get stocks ticker, if not exists, return
+    const stockInfo = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`)
+    const stockInfoJson = await stockInfo.json()
+    if (!stockInfoJson.chart.result) {
+      res.status(403);
+      res.json({
+        message: "Ticker not found",
+      });
+      return;
     }
-    await stocks.save();
+
+    // current price of stock in set currency
+    const conversionRate = await getConversionRate(stockInfoJson.chart.result[0].meta.currency, user.settings.currency);
+    const value = (stockInfoJson.chart.result[0].meta.regularMarketPrice * conversionRate).toFixed(2);
+    const stocks = await Stocks.findOne({ username: username }).exec();
+
+    if (!stocks) {
+      await createNewStock(username, ticker, amount, value);
+
+      res.json(await getUserStocks(username));
+      return;
+
+    } else {
+      await addToExistingStock(stocks, ticker, amount, value);
+
+      res.json(await getUserStocks(username));
+      return;
+    }
+  } catch (error) {
+    next(new CustomError('Something went wrong', 500));
   }
-  const userStocks = await getUserStocks(username);
-  res.json(userStocks);
 });
 
 module.exports = stock_add;

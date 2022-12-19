@@ -3,6 +3,7 @@ const app = express();
 const bcrypt = require("bcrypt");
 const User = require("../models/user")
 const { createToken } = require('../utils/jwt')
+const CustomError = require('../models/CustomError')
 
 const login = app.post("/login", async (req, res, next) => {
   // validate user account on login
@@ -17,27 +18,33 @@ const login = app.post("/login", async (req, res, next) => {
     });
     return;
   }
-  // validate password, if invalid send back 403 err
-  const passwordIsValid = await bcrypt.compare(password, user.password);
-  if (user && !passwordIsValid) {
-    res.status(403);
-    res.json({
-      message: "Wrong password",
-    });
-    return;
+
+  try {
+    // validate password, if invalid send back 403 err
+    const passwordIsValid = await bcrypt.compare(password, user.password);
+    if (user && !passwordIsValid) {
+      res.status(403);
+      res.json({
+        message: "Wrong password",
+      });
+      return;
+    }
+
+    const accessToken = createToken({
+      id: user._id,
+    })
+
+    res
+      .json({
+        message: "Success",
+        username: username,
+        settings: user.settings,
+        token: accessToken
+      });
+
+  } catch (error) {
+    next(new CustomError('Something went wrong', 500));
   }
-
-  const accessToken = createToken({
-    id: user._id,
-  })
-
-  res
-    .json({
-      message: "Success",
-      username: username,
-      settings: user.settings,
-      token: accessToken
-    });
 });
 
 module.exports = login;
