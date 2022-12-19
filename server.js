@@ -21,7 +21,7 @@ const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-app.use(cors());
+app.use(cors());  //
 app.use(express.json());
 app.use(cookieParser());
 // mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority
