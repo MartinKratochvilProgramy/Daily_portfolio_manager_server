@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(cookieParser());
 // mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority
 // mongodb://localhost:27017/portfolio
-mongoose.connect("mongodb://localhost:27017/portfolio", {
+mongoose.connect("mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
