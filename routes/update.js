@@ -11,6 +11,7 @@ const update = app.post("/update", async (req, res) => {
   const { password } = req.headers;
 
   res.json(password, process.env.SECRET)
+  return;
 
   if (password !== process.env.SECRET) {
     res.status(403);
