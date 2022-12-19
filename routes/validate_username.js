@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const User = require("../models/user")
 
-const validate_user = app.post("/validate_user", async (req, res) => {
+const validate_user = app.post("/validate_username", async (req, res) => {
     // create user account, return 500 err if no password or username given
     let { username } = req.body;
 

@@ -11,7 +11,6 @@ async function getConversionRate(
         conversionRate = 1;
     } else {
         const conversionRateSrc = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stockCurrency}${userCurrency}=X`)
-        console.log(conversionRateSrc);
         const conversionRateJson = await conversionRateSrc.json();
         conversionRate = conversionRateJson.chart.result[0].meta.previousClose;
     }

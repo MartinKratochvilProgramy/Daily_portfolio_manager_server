@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
 const User = require("../models/user");
-const Stocks = require("../models/stocks");
-const updateStocks = require("../utils/updateStocks");
 const getUserStocks = require("../middleware/getUserStocks");
 const { verifyToken } = require("../utils/jwt");
 const CustomError = require('../models/CustomError')
+const stockDelete = require('../middleware/stockDelete');
+const updateStocks = require("../utils/updateStocks");
 
 const stock_remove = app.post("/stock_remove", async (req, res, next) => {
   // remove stock from db
@@ -30,28 +30,7 @@ const stock_remove = app.post("/stock_remove", async (req, res, next) => {
       return;
     }
 
-    const stocks = await Stocks.findOne({ username: username }).exec();
-    if (!stocks) {
-      res.status(403);
-      res.json({
-        message: "invalid access",
-      });
-      return;
-    }
-
-    let newStocks;
-    if (newAmount === 0) {
-      newStocks = stocks.stocks.filter((stock) => stock.ticker !== ticker);
-    } else if (newAmount > 0) {
-      newStocks = stocks.stocks;
-      const objIndex = stocks.stocks.findIndex((stocks => stocks.ticker === ticker));
-      newStocks[objIndex].amount = newAmount;
-    }
-
-    stocks.stocks = newStocks;
-
-    await stocks.save();
-    // update net worth
+    stockDelete(username, ticker, newAmount);
     await updateStocks(username);
 
     const userStocks = await getUserStocks(username);

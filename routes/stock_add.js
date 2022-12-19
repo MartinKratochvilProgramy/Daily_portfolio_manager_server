@@ -25,7 +25,6 @@ const stock_add = app.post("/stock_add", async (req, res, next) => {
     const user = await User.findById(decoded.id).exec();
 
     if (!user) {
-      console.log(user._id, decoded.id);
       res.status(403);
       res.json({
         message: "Invalid access",
