@@ -10,16 +10,13 @@ const update = app.post("/update", async (req, res) => {
   // net worth and relative change
   const { password } = req.headers;
 
-  res.json({ res: [password, process.env.SECRET] })
-  return;
-
-  if (password !== process.env.SECRET) {
-    res.status(403);
-    res.json({
-      message: "Failed, wrong credentials"
-    })
-    return;
-  }
+  // if (password !== process.env.SECRET) {
+  //   res.status(403);
+  //   res.json({
+  //     message: "Failed, wrong credentials"
+  //   })
+  //   return;
+  // }
 
   let response = [];
 
