@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const User = require("../models/user")
-const getUserStocks = require("../utils/getUserStocks");
+const getUserStocks = require("../middleware/getUserStocks");
 const { verifyToken } = require("../utils/jwt");
 const CustomError = require('../models/CustomError')
 

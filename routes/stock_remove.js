@@ -3,7 +3,7 @@ const app = express();
 const User = require("../models/user");
 const Stocks = require("../models/stocks");
 const updateStocks = require("../utils/updateStocks");
-const getUserStocks = require("../utils/getUserStocks");
+const getUserStocks = require("../middleware/getUserStocks");
 const { verifyToken } = require("../utils/jwt");
 const CustomError = require('../models/CustomError')
 
