@@ -10,7 +10,7 @@ const update = app.post("/update", async (req, res) => {
   // net worth and relative change
   const { password } = req.headers;
 
-  res.json({ password: password, secret: process.env.SECRET })
+  res.json({ res: [password, process.env.SECRET] })
   return;
 
   if (password !== process.env.SECRET) {
