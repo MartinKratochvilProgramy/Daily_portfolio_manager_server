@@ -4,7 +4,7 @@ const User = require("../models/user");
 const getUserStocks = require("../middleware/getUserStocks");
 const { verifyToken } = require("../utils/jwt");
 const CustomError = require('../models/CustomError')
-const stockDelete = require('../middleware/stockDelete');
+const stockRemove = require('../middleware/stockRemove');
 const updateStocks = require("../utils/updateStocks");
 
 const stock_remove = app.post("/stock_remove", async (req, res, next) => {
@@ -30,7 +30,7 @@ const stock_remove = app.post("/stock_remove", async (req, res, next) => {
       return;
     }
 
-    stockDelete(username, ticker, newAmount);
+    stockRemove(username, ticker, newAmount);
     await updateStocks(username);
 
     const userStocks = await getUserStocks(username);
