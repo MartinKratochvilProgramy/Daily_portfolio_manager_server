@@ -19,7 +19,6 @@ const stock_add = app.post("/stock_add", async (req, res, next) => {
   // get username password from headers
   const [, auth] = authorization.split(" ");
   const [username, token] = auth.split(":");
-  // auth user, if not found send back 403 err
 
   try {
     const decoded = verifyToken(token);
@@ -45,11 +44,8 @@ const stock_add = app.post("/stock_add", async (req, res, next) => {
       return;
     }
 
-
-    const conversionRate = await getConversionRate(stockInfoJson.chart.result[0].meta.currency, user.settings.currency);
-    console.log(conversionRate);
-
     // current price of stock in set currency
+    const conversionRate = await getConversionRate(stockInfoJson.chart.result[0].meta.currency, user.settings.currency);
     const value = (stockInfoJson.chart.result[0].meta.regularMarketPrice * conversionRate).toFixed(2);
     const stocks = await Stocks.findOne({ username: username }).exec();
 

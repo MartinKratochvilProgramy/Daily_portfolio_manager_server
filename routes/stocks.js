@@ -37,7 +37,7 @@ const stocks = app.get("/stocks", async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(new CustomError('Something went wrong', 500));
+    next(new CustomError(error, 500));
   }
 });
 
