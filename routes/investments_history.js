@@ -25,7 +25,16 @@ const investments_history = app.get("/investments_history", async (req, res) => 
   const foundInvestments = await Stocks.findOne({ username: username }).exec();
   if (foundInvestments) {
     const investments = foundInvestments.totalInvestedHistory;
-    res.json(investments);
+    // create array of res objects -> this is to remove the _id property from value returned 
+    // by MongoDB
+    const result = [];
+    for (const investment of investments) {
+      result.push({
+        date: investment.date,
+        total: investment.total
+      })
+    }
+    res.json(result);
   } else {
 
     res.status(404);

@@ -27,8 +27,10 @@ const stocks = app.get("/stocks", async (req, res, next) => {
     }
     const foundStocks = await getUserStocks(username);
     if (foundStocks) {
+      for (const ticker of foundStocks) {
+        delete ticker._id
+      }
       res.json(foundStocks);
-
     } else {
 
       res.status(404);
