@@ -4,6 +4,7 @@ const User = require("../models/user");
 const Stocks = require("../models/stocks");
 const { verifyToken } = require("../utils/jwt");
 const CustomError = require('../models/CustomError');
+const getCurrentDate = require("../utils/getCurrentDate");
 
 const stocks_history = app.get("/stocks_history", async (req, res, next) => {
   // send stocks to client
@@ -26,14 +27,32 @@ const stocks_history = app.get("/stocks_history", async (req, res, next) => {
       return;
     }
     const foundStocks = await Stocks.findOne({ username: username }).exec();
-    if (foundStocks) {
+    if (foundStocks.netWorthHistory.length > 0) {
+      // user has some history
       const stocks = foundStocks.netWorthHistory;
-      res.json(stocks);
+      const result = [];
+      // strip _id propety from stocks
+      for (let i = 0; i < stocks.length; i++) {
+        result.push({
+          date: stocks[i].date,
+          netWorth: stocks[i].netWorth
+        })
+      }
+
+      res.json(result);
+
+    } else if (foundStocks.netWorthHistory.length === 0) {
+      // user history is empty
+      res.json([{
+        date: getCurrentDate(),
+        netWorth: 0,
+      }])
+
     } else {
 
       res.status(404);
       res.json({
-        message: "Stocks not found",
+        message: "Stocks history not found",
       });
     }
 

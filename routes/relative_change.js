@@ -3,7 +3,8 @@ const app = express();
 const User = require("../models/user")
 const Stocks = require("../models/stocks")
 const { verifyToken } = require("../utils/jwt");
-const CustomError = require('../models/CustomError')
+const CustomError = require('../models/CustomError');
+const getCurrentDate = require("../utils/getCurrentDate");
 
 const relative_change = app.get("/relative_change", async (req, res, next) => {
   // send invested amounts to client
@@ -26,17 +27,37 @@ const relative_change = app.get("/relative_change", async (req, res, next) => {
       return;
     }
     const foundInvestments = await Stocks.findOne({ username: username }).exec();
-    if (foundInvestments) {
+
+    if (foundInvestments.relativeChangeHistory.length > 0) {
+      // user has some history
       const relativeChangeHistory = foundInvestments.relativeChangeHistory;
-      res.json(relativeChangeHistory);
+      const result = [];
+      // strip _id propety from stocks
+      for (let i = 0; i < relativeChangeHistory.length; i++) {
+        result.push({
+          date: relativeChangeHistory[i].date,
+          relativeChange: relativeChangeHistory[i].relativeChange
+        })
+      }
+
+      res.json(result);
+
+    } else if (foundInvestments.relativeChangeHistory.length === 0) {
+      // user history is empty
+      res.json([{
+        date: getCurrentDate(),
+        relativeChange: 1,
+      }])
+
     } else {
 
       res.status(404);
       res.json({
-        message: "Stocks not found",
+        message: "Relative change not found",
       });
     }
   } catch (error) {
+    console.log(error);
     next(new CustomError('Something went wrong', 500))
   }
 });

@@ -27,6 +27,7 @@ const stocks = app.get("/stocks", async (req, res, next) => {
     }
     const foundStocks = await getUserStocks(username);
     if (foundStocks) {
+      // TODO: this also sends _id
       for (const ticker of foundStocks) {
         delete ticker._id
       }

@@ -37,16 +37,19 @@ async function stockRemove(
         const res = [];
 
         for (let i = 0; i < newPurchaseHistory.length; i++) {
-            if (newPurchaseHistory[i].amount + count <= target) {
-                count += newPurchaseHistory[i].amount;
-            } else if (count < target && target < count + newPurchaseHistory[i].amount) {
-                const newPurchase = newPurchaseHistory[i];
+            const newPurchase = newPurchaseHistory[i];
+
+            if (newPurchase.amount + count <= target) {
+                count += newPurchase.amount;
+
+            } else if (count < target && target < count + newPurchase.amount) {
                 newPurchase.amount = newPurchase.amount - (target - count);
-                console.log(newPurchase);
                 res.push(newPurchase);
-                count += newPurchaseHistory[i].amount
+                count += (target - count);
+
             } else {
-                res.push(newPurchaseHistory[i]);
+                res.push(newPurchase);
+
             }
         }
 

@@ -61,6 +61,7 @@ const stock_add = app.post("/stock_add", async (req, res, next) => {
       return;
     }
   } catch (error) {
+    console.log(error);
     next(new CustomError('Something went wrong', 500));
   }
 });

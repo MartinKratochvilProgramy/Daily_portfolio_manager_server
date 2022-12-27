@@ -1,6 +1,5 @@
 const Stocks = require("../models/stocks")
 const getCurrentDate = require("../utils/getCurrentDate");
-const getUserStocks = require("./getUserStocks");
 
 async function createNewStock(
     username,
