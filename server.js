@@ -20,16 +20,11 @@ const validate_username = require("./routes/validate_username")
 const app = express();
 
 const PORT = process.env.PORT || 4000;
+const DATABASE_ROUTE = process.env.DATABASE_ROUTE;
 
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-// mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority
-// mongodb://localhost:27017/portfolio
-mongoose.connect("mongodb+srv://martvil96:mypassword@daily-portfolio-app.in35sv9.mongodb.net/?retryWrites=true&w=majority", {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-});
 
 app.use("/", login);
 app.use("/", register);
@@ -44,6 +39,10 @@ app.use("/", update);
 app.use("/", set_theme);
 app.use("/", validate_username);
 
+mongoose.connect(DATABASE_ROUTE, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
