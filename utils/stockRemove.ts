@@ -33,23 +33,25 @@ export const stockRemove = async (
         // if newAmount 0, remove stock all-together
         newPurchaseHistory = stocks.purchaseHistory.filter((purchase: PurchaseHistoryInterface) => purchase.ticker !== ticker);
     } else if (newAmount > 0) {
+        // if nonzero new amount, first find purchase history of a given ticker
         const purchasesIndex = stocks.purchaseHistory.findIndex(((purchase: PurchaseHistoryInterface) => purchase.ticker === ticker));
         newPurchaseHistory = stocks.purchaseHistory[purchasesIndex].purchases;
 
-        const target = currentAmount - newAmount;
+        const amtToRemove = currentAmount - newAmount;
         let count = 0;
         const result: string[] = [];
 
+        // unless the count is higher than amtToRemove, ignore purchases
         for (let i = 0; i < newPurchaseHistory.length; i++) {
             const newPurchase = newPurchaseHistory[i];
 
-            if (newPurchase.amount + count <= target) {
+            if (newPurchase.amount + count <= amtToRemove) {
                 count += newPurchase.amount;
 
-            } else if (count < target && target < count + newPurchase.amount) {
-                newPurchase.amount = newPurchase.amount - (target - count);
+            } else if (count < amtToRemove && amtToRemove < count + newPurchase.amount) {
+                newPurchase.amount = newPurchase.amount - (amtToRemove - count);
                 result.push(newPurchase);
-                count += (target - count);
+                count += (amtToRemove - count);
 
             } else {
                 result.push(newPurchase);
