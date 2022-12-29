@@ -1,1 +1,1 @@
-*.es linguist-vendored=js   
+build/** linguist-vendored
