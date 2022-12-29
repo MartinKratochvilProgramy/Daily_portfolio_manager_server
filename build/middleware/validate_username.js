@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.validate_username = void 0;
-var User = require("../models/user");
+var user_1 = require("../models/user");
 var validate_username = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var username, existingUser;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 username = req.body.username;
-                return [4 /*yield*/, User.findOne({ username: username }).exec()];
+                return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
             case 1:
                 existingUser = _a.sent();
                 if (existingUser) {

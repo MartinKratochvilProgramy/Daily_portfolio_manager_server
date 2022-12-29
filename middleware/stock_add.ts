@@ -3,9 +3,9 @@ import { getConversionRate } from "../utils/getConversionRate";
 import { getUserStocks } from "../utils/getUserStocks";
 import { createNewStock, addToExistingStock } from "../utils/stockAdd";
 const fetch = require('node-fetch');
-const User = require("../models/user")
-const Stocks = require("../models/stocks")
-const { verifyToken } = require("../utils/jwt");
+import { User } from '../models/user';
+import { Stocks } from '../models/stocks';
+import { verifyToken } from '../utils/jwt';
 
 export const stock_add = async (req: Request, res: Response) => {
   // add stock to db

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
+import { createToken } from '../utils/jwt';
+import { User } from '../models/user';
 const bcrypt = require("bcrypt");
-const User = require("../models/user")
-const { createToken } = require('../utils/jwt')
 
 export const login = async (req: Request, res: Response) => {
   // validate user account on login

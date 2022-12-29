@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-const User = require("../models/user")
+import { User } from '../models/user';
 
 export const validate_username = async (req: Request, res: Response) => {
     // create user account, return 500 err if no password or username given

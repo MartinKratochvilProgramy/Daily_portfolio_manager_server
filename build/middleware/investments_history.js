@@ -37,9 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.investments_history = void 0;
-var User = require("../models/user");
-var Stocks = require("../models/stocks");
-var verifyToken = require("../utils/jwt").verifyToken;
+var user_1 = require("../models/user");
+var stocks_1 = require("../models/stocks");
+var jwt_1 = require("../utils/jwt");
 var investments_history = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var authorization, _a, auth, _b, username, token, decoded, user, foundInvestments, investments, investmentHistory, _i, investments_1, investment;
     return __generator(this, function (_c) {
@@ -54,8 +54,8 @@ var investments_history = function (req, res) { return __awaiter(void 0, void 0,
                 }
                 _a = authorization.split(" "), auth = _a[1];
                 _b = auth.split(":"), username = _b[0], token = _b[1];
-                decoded = verifyToken(token);
-                return [4 /*yield*/, User.findById(decoded.id).exec()];
+                decoded = (0, jwt_1.verifyToken)(token);
+                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
             case 1:
                 user = _c.sent();
                 if (!user) {
@@ -65,7 +65,7 @@ var investments_history = function (req, res) { return __awaiter(void 0, void 0,
                     });
                     return [2 /*return*/];
                 }
-                return [4 /*yield*/, Stocks.findOne({ username: username }).exec()];
+                return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
             case 2:
                 foundInvestments = _c.sent();
                 if (foundInvestments) {

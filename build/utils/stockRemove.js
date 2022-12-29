@@ -37,15 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.stockRemove = void 0;
-var Stocks = require("../models/stocks");
+var stocks_1 = require("../models/stocks");
 var stockRemove = function (username, ticker, newAmount, res) { return __awaiter(void 0, void 0, void 0, function () {
     var stocks, currentAmount, newStocks, objIndex, newPurchaseHistory, purchasesIndex, target, count, result, i, newPurchase;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Stocks.findOne({ username: username }).exec()];
+            case 0: return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
             case 1:
                 stocks = _a.sent();
-                currentAmount = stocks.stocks[stocks.stocks.findIndex(function (stock) { return stock.ticker === ticker; })].amount;
+                currentAmount = stocks.stocks[stocks.stocks.findIndex(function (StockInterface) { return StockInterface.ticker === ticker; })].amount;
                 if (!stocks) {
                     res.status(403);
                     res.json({
@@ -54,7 +54,7 @@ var stockRemove = function (username, ticker, newAmount, res) { return __awaiter
                     return [2 /*return*/];
                 }
                 if (newAmount === 0) {
-                    newStocks = stocks.stocks.filter(function (stock) { return stock.ticker !== ticker; });
+                    newStocks = stocks.stocks.filter(function (StockInterface) { return StockInterface.ticker !== ticker; });
                 }
                 else if (newAmount > 0) {
                     newStocks = stocks.stocks;
@@ -62,6 +62,7 @@ var stockRemove = function (username, ticker, newAmount, res) { return __awaiter
                     newStocks[objIndex].amount = newAmount;
                 }
                 if (newAmount <= 0) {
+                    // if newAmount 0, remove stock all-together
                     newPurchaseHistory = stocks.purchaseHistory.filter(function (purchase) { return purchase.ticker !== ticker; });
                 }
                 else if (newAmount > 0) {

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getCurrentDate } from "../utils/getCurrentDate";
 import { updateStocks } from "../utils/updateStocks";
 import { updateRelativeChange } from "../utils/updateRelativeChange";
-const Stocks = require("../models/stocks");
+import { Stocks } from '../models/stocks';
 
 export const update = async (req: Request, res: Response) => {
   // after auth run through all user's stocks and update current price,

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { getCurrentDate } from "../utils/getCurrentDate";
+import { createToken } from '../utils/jwt';
+import { Stocks } from '../models/stocks';
+import { User } from '../models/user';
 const bcrypt = require("bcrypt");
-const User = require("../models/user")
-const Stocks = require("../models/stocks")
-const { createToken } = require('../utils/jwt')
 
 export const register = async (req: Request, res: Response) => {
   // create user account, return 500 err if no password or username given

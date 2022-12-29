@@ -37,12 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.getUserStocks = void 0;
-var Stocks = require("../models/stocks");
+var stocks_1 = require("../models/stocks");
 var getUserStocks = function (username) { return __awaiter(void 0, void 0, void 0, function () {
     var foundStocks, stocks, purchaseHistory, result, _loop_1, i;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Stocks.findOne({ username: username }).exec()];
+            case 0: return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
             case 1:
                 foundStocks = _a.sent();
                 if (foundStocks) {

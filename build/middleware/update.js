@@ -40,7 +40,7 @@ exports.update = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
 var updateStocks_1 = require("../utils/updateStocks");
 var updateRelativeChange_1 = require("../utils/updateRelativeChange");
-var Stocks = require("../models/stocks");
+var stocks_1 = require("../models/stocks");
 var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var password, output, today, allUsers, i, stocksoutput, relativeChangeoutput, error_1;
     return __generator(this, function (_a) {
@@ -58,7 +58,7 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 today = new Date();
                 output.push("Updating stock info at day ".concat((0, getCurrentDate_1.getCurrentDate)()));
                 if (!(today.getDay() !== 6 && today.getDay() !== 0)) return [3 /*break*/, 9];
-                return [4 /*yield*/, Stocks.find()];
+                return [4 /*yield*/, stocks_1.Stocks.find()];
             case 1:
                 allUsers = _a.sent();
                 i = 0;

@@ -1,5 +1,5 @@
 import { getCurrentDate } from "../utils/getCurrentDate";
-const Stocks = require("../models/stocks");
+import { Stocks } from '../models/stocks';
 
 export const updateRelativeChange = async (username: string) => {
     // loop through all user's stocks and update prev close

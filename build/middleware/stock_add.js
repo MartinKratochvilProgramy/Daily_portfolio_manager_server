@@ -41,9 +41,9 @@ var getConversionRate_1 = require("../utils/getConversionRate");
 var getUserStocks_1 = require("../utils/getUserStocks");
 var stockAdd_1 = require("../utils/stockAdd");
 var fetch = require('node-fetch');
-var User = require("../models/user");
-var Stocks = require("../models/stocks");
-var verifyToken = require("../utils/jwt").verifyToken;
+var user_1 = require("../models/user");
+var stocks_1 = require("../models/stocks");
+var jwt_1 = require("../utils/jwt");
 var stock_add = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var stockItems, ticker, amount, authorization, _a, auth, _b, username, token, decoded, user, stockInfo, stockInfoJson, conversionRate, value, stocks, _c, _d, _e, _f, error_1;
     return __generator(this, function (_g) {
@@ -64,8 +64,8 @@ var stock_add = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 _g.label = 1;
             case 1:
                 _g.trys.push([1, 13, , 14]);
-                decoded = verifyToken(token);
-                return [4 /*yield*/, User.findById(decoded.id).exec()];
+                decoded = (0, jwt_1.verifyToken)(token);
+                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
             case 2:
                 user = _g.sent();
                 if (!user) {
@@ -92,7 +92,7 @@ var stock_add = function (req, res) { return __awaiter(void 0, void 0, void 0, f
             case 5:
                 conversionRate = _g.sent();
                 value = (stockInfoJson.chart.result[0].meta.regularMarketPrice * conversionRate).toFixed(2);
-                return [4 /*yield*/, Stocks.findOne({ username: username }).exec()];
+                return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
             case 6:
                 stocks = _g.sent();
                 if (!!stocks) return [3 /*break*/, 9];

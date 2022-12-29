@@ -37,16 +37,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.login = void 0;
+var jwt_1 = require("../utils/jwt");
+var user_1 = require("../models/user");
 var bcrypt = require("bcrypt");
-var User = require("../models/user");
-var createToken = require('../utils/jwt').createToken;
 var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, username, password, user, passwordIsValid, accessToken, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, username = _a.username, password = _a.password;
-                return [4 /*yield*/, User.findOne({ username: username }).exec()];
+                return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
             case 1:
                 user = _b.sent();
                 if (!user) {
@@ -69,7 +69,7 @@ var login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
                     });
                     return [2 /*return*/];
                 }
-                accessToken = createToken({
+                accessToken = (0, jwt_1.createToken)({
                     id: user._id
                 });
                 res

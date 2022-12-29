@@ -1,40 +1,40 @@
-interface Purchase {
+interface PurchaseInterface {
     date: string,
     amount: number,
     currentPrice: number,
     totalAmount: number
 }
 
-export interface FormattedStock {
+export interface FormattedStockInterface {
     ticker: string;
     amount: number;
     prevClose: number;
     _id: string;
     firstPurchase: string;
     lastPurchase: string;
-    purchaseHistory: Purchase[];
+    purchaseHistory: PurchaseInterface[];
 }
 
-export interface Stock {
+export interface StockInterface {
     ticker: string;
     amount: number;
     prevClose: number;
 }
 
-export interface PurchaseHistory {
+export interface PurchaseHistoryInterface {
     ticker: string;
-    purchases: Purchase[];
+    purchases: PurchaseInterface[];
 }
 
-export interface TotalInvestedHistory {
+export interface TotalInvestedHistoryInterface {
     date: string;
     total: number;
 }
 
-export interface Stocks {
+export interface StocksInterface {
     username: string;
-    stocks: Stock[];
-    purchaseHistory: PurchaseHistory[];
+    stocks: StockInterface[];
+    purchaseHistory: PurchaseHistoryInterface[];
     netWorthHistory: {
         date: string;
         netWorth: number;
@@ -43,6 +43,6 @@ export interface Stocks {
         date: string;
         relativeChange: number;
     }[];
-    totalInvestedHistory: TotalInvestedHistory[];
+    totalInvestedHistory: TotalInvestedHistoryInterface[];
 
 }

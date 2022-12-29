@@ -37,9 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.set_theme = void 0;
-var User = require("../models/user");
-var verifyToken = require("../utils/jwt").verifyToken;
-var CustomError = require('../models/CustomError');
+var user_1 = require("../models/user");
+var jwt_1 = require("../utils/jwt");
 var set_theme = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var authorization, theme, _a, auth, _b, token, decoded, user, error_1;
     return __generator(this, function (_c) {
@@ -58,8 +57,8 @@ var set_theme = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 _c.label = 1;
             case 1:
                 _c.trys.push([1, 4, , 5]);
-                decoded = verifyToken(token);
-                return [4 /*yield*/, User.findById(decoded.id).exec()];
+                decoded = (0, jwt_1.verifyToken)(token);
+                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
             case 2:
                 user = _c.sent();
                 if (!user) {

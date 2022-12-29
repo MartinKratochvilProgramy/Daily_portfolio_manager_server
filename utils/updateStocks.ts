@@ -1,6 +1,6 @@
 import { getCurrentDate } from "../utils/getCurrentDate";
-const Stocks = require("../models/stocks");
-const User = require("../models/user");
+import { Stocks } from '../models/stocks';
+import { User } from '../models/user';
 const fetch = require('node-fetch');
 
 export const updateStocks = async (username: string): Promise<string> => {

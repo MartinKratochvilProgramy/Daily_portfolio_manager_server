@@ -38,17 +38,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.updateStocks = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
-var Stocks = require("../models/stocks");
-var User = require("../models/user");
+var stocks_1 = require("../models/stocks");
+var user_1 = require("../models/user");
 var fetch = require('node-fetch');
 var updateStocks = function (username) { return __awaiter(void 0, void 0, void 0, function () {
     var stocks, user, totalNetWorth, i, stockInfo, stockInfoJson, conversionRate, conversionRateSrc, conversionRateJson, prevClose, today, response;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Stocks.findOne({ username: username }).exec()];
+            case 0: return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
             case 1:
                 stocks = _a.sent();
-                return [4 /*yield*/, User.findOne({ username: username }).exec()];
+                return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
             case 2:
                 user = _a.sent();
                 totalNetWorth = 0;

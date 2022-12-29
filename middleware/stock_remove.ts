@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { getUserStocks } from "../utils/getUserStocks";
 import { stockRemove } from "../utils/stockRemove";
 import { updateStocks } from "../utils/updateStocks";
-const User = require("../models/user");
-const { verifyToken } = require("../utils/jwt");
+import { User } from '../models/user';
+import { verifyToken } from '../utils/jwt';
 
 export const stock_remove = async (req: Request, res: Response) => {
   // remove stock from db

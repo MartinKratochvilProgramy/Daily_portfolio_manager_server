@@ -38,12 +38,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.updateRelativeChange = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
-var Stocks = require("../models/stocks");
+var stocks_1 = require("../models/stocks");
 var updateRelativeChange = function (username) { return __awaiter(void 0, void 0, void 0, function () {
     var stocks, today, totalNetWorth, previousNetWorth, relativeChange, response;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Stocks.findOne({ username: username }).exec()];
+            case 0: return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
             case 1:
                 stocks = _a.sent();
                 today = (0, getCurrentDate_1.getCurrentDate)();

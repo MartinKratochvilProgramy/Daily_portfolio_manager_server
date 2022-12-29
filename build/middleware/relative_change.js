@@ -38,9 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.relative_change = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
-var User = require("../models/user");
-var Stocks = require("../models/stocks");
-var verifyToken = require("../utils/jwt").verifyToken;
+var user_1 = require("../models/user");
+var stocks_1 = require("../models/stocks");
+var jwt_1 = require("../utils/jwt");
 var relative_change = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var authorization, _a, auth, _b, username, token, decoded, user, foundInvestments, relativeChangeHistory, formattedRelativeChangeHistory, i, error_1;
     return __generator(this, function (_c) {
@@ -58,8 +58,8 @@ var relative_change = function (req, res) { return __awaiter(void 0, void 0, voi
                 _c.label = 1;
             case 1:
                 _c.trys.push([1, 4, , 5]);
-                decoded = verifyToken(token);
-                return [4 /*yield*/, User.findById(decoded.id).exec()];
+                decoded = (0, jwt_1.verifyToken)(token);
+                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
             case 2:
                 user = _c.sent();
                 if (!user) {
@@ -69,7 +69,7 @@ var relative_change = function (req, res) { return __awaiter(void 0, void 0, voi
                     });
                     return [2 /*return*/];
                 }
-                return [4 /*yield*/, Stocks.findOne({ username: username }).exec()];
+                return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
             case 3:
                 foundInvestments = _c.sent();
                 if (foundInvestments.relativeChangeHistory.length > 0) {

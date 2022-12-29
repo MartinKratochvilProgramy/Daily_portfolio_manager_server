@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-const User = require("../models/user")
-const Stocks = require("../models/stocks");
-const { verifyToken } = require("../utils/jwt");
+import { User } from '../models/user';
+import { Stocks } from '../models/stocks';
+import { verifyToken } from '../utils/jwt';
 
 interface InvestmentHistory {
   date: string;

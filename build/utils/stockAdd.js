@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.addToExistingStock = exports.createNewStock = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
-var Stocks = require("../models/stocks");
+var stocks_1 = require("../models/stocks");
 var createNewStock = function (username, ticker, amount, value) { return __awaiter(void 0, void 0, void 0, function () {
     var today;
     return __generator(this, function (_a) {
@@ -46,7 +46,7 @@ var createNewStock = function (username, ticker, amount, value) { return __await
             case 0:
                 today = (0, getCurrentDate_1.getCurrentDate)();
                 // if no stock history (first commit), create new object
-                return [4 /*yield*/, Stocks.create({
+                return [4 /*yield*/, stocks_1.Stocks.create({
                         username: username,
                         stocks: [{
                                 ticker: ticker,

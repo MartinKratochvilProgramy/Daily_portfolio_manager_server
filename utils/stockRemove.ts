@@ -1,6 +1,6 @@
-const Stocks = require("../models/stocks");
+import { Stocks } from '../models/stocks';
 import { Response } from 'express';
-import { PurchaseHistory, Stock, Stocks } from '../types/stock';
+import { PurchaseHistoryInterface, StockInterface } from '../types/stock';
 
 export const stockRemove = async (
     username: string,
@@ -9,7 +9,7 @@ export const stockRemove = async (
     res: Response
 ) => {
     const stocks = await Stocks.findOne({ username: username }).exec();
-    const currentAmount = stocks.stocks[stocks.stocks.findIndex((stock: Stock) => stock.ticker === ticker)].amount;
+    const currentAmount = stocks.stocks[stocks.stocks.findIndex((StockInterface: StockInterface) => StockInterface.ticker === ticker)].amount;
 
     if (!stocks) {
         res.status(403);
@@ -21,18 +21,19 @@ export const stockRemove = async (
 
     let newStocks;
     if (newAmount === 0) {
-        newStocks = stocks.stocks.filter((stock: Stock) => stock.ticker !== ticker);
+        newStocks = stocks.stocks.filter((StockInterface: StockInterface) => StockInterface.ticker !== ticker);
     } else if (newAmount > 0) {
         newStocks = stocks.stocks;
-        const objIndex = stocks.stocks.findIndex((stocks: Stock) => stocks.ticker === ticker);
+        const objIndex = stocks.stocks.findIndex((stocks: StockInterface) => stocks.ticker === ticker);
         newStocks[objIndex].amount = newAmount;
     }
 
     let newPurchaseHistory;
     if (newAmount <= 0) {
-        newPurchaseHistory = stocks.purchaseHistory.filter((purchase: PurchaseHistory) => purchase.ticker !== ticker);
+        // if newAmount 0, remove stock all-together
+        newPurchaseHistory = stocks.purchaseHistory.filter((purchase: PurchaseHistoryInterface) => purchase.ticker !== ticker);
     } else if (newAmount > 0) {
-        const purchasesIndex = stocks.purchaseHistory.findIndex(((purchase: PurchaseHistory) => purchase.ticker === ticker));
+        const purchasesIndex = stocks.purchaseHistory.findIndex(((purchase: PurchaseHistoryInterface) => purchase.ticker === ticker));
         newPurchaseHistory = stocks.purchaseHistory[purchasesIndex].purchases;
 
         const target = currentAmount - newAmount;

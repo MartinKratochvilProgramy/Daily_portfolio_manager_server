@@ -40,8 +40,8 @@ exports.stock_remove = void 0;
 var getUserStocks_1 = require("../utils/getUserStocks");
 var stockRemove_1 = require("../utils/stockRemove");
 var updateStocks_1 = require("../utils/updateStocks");
-var User = require("../models/user");
-var verifyToken = require("../utils/jwt").verifyToken;
+var user_1 = require("../models/user");
+var jwt_1 = require("../utils/jwt");
 var stock_remove = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var authorization, ticker, newAmount, _a, auth, _b, username, token, decoded, user, userStocks, error_1;
     return __generator(this, function (_c) {
@@ -61,8 +61,8 @@ var stock_remove = function (req, res) { return __awaiter(void 0, void 0, void 0
                 _c.label = 1;
             case 1:
                 _c.trys.push([1, 5, , 6]);
-                decoded = verifyToken(token);
-                return [4 /*yield*/, User.findById(decoded.id).exec()];
+                decoded = (0, jwt_1.verifyToken)(token);
+                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
             case 2:
                 user = _c.sent();
                 if (!user) {

@@ -1,7 +1,6 @@
 import { getCurrentDate } from "../utils/getCurrentDate";
-import { Stock } from "../types/stock";
-import { TotalInvestedHistory } from "../types/stock";
-const Stocks = require("../models/stocks");
+import { StockInterface, TotalInvestedHistoryInterface } from "../types/stock";
+import { Stocks } from '../models/stocks';
 
 export const createNewStock = async (
     username: string,
@@ -55,7 +54,7 @@ export const addToExistingStock = async (
     const today = getCurrentDate();
 
     // if stock history, push to existing db
-    const stockIndex = stocks.stocks.map((item: Stock) => item.ticker).indexOf(ticker); // index of given ticker, if not exists, stockIndex = 1
+    const stockIndex = stocks.stocks.map((item: StockInterface) => item.ticker).indexOf(ticker); // index of given ticker, if not exists, stockIndex = 1
     if (stockIndex === -1) {
         // stock ticker does not exist, push new
         stocks.stocks.push({
@@ -91,7 +90,7 @@ export const addToExistingStock = async (
     })
 
     // add purchase to investments history
-    const investedIndex = stocks.totalInvestedHistory.map((item: TotalInvestedHistory) => item.date).indexOf(today);
+    const investedIndex = stocks.totalInvestedHistory.map((item: TotalInvestedHistoryInterface) => item.date).indexOf(today);
     if (investedIndex === -1) {
         // if no purchase was made today
         stocks.totalInvestedHistory.push({

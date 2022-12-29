@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { getUserStocks } from "../utils/getUserStocks";
-const User = require("../models/user")
-const { verifyToken } = require("../utils/jwt");
+import { User } from '../models/user';
+import { verifyToken } from '../utils/jwt';
 
 export const stocks = async (req: Request, res: Response) => {
   // send stocks to client

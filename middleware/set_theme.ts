@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
-const User = require("../models/user");
-const { verifyToken } = require("../utils/jwt");
-const CustomError = require('../models/CustomError');
+import { User } from '../models/user';
+import { verifyToken } from '../utils/jwt';
 
 export const set_theme = async (req: Request, res: Response) => {
   // change theme
