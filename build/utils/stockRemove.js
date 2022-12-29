@@ -39,7 +39,7 @@ exports.__esModule = true;
 exports.stockRemove = void 0;
 var stocks_1 = require("../models/stocks");
 var stockRemove = function (username, ticker, newAmount, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var stocks, currentAmount, newStocks, objIndex, newPurchaseHistory, purchasesIndex, target, count, result, i, newPurchase;
+    var stocks, currentAmount, newStocks, objIndex, newPurchaseHistory, purchasesIndex, amtToRemove, count, result, i, newPurchase;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
@@ -68,18 +68,19 @@ var stockRemove = function (username, ticker, newAmount, res) { return __awaiter
                 else if (newAmount > 0) {
                     purchasesIndex = stocks.purchaseHistory.findIndex((function (purchase) { return purchase.ticker === ticker; }));
                     newPurchaseHistory = stocks.purchaseHistory[purchasesIndex].purchases;
-                    target = currentAmount - newAmount;
+                    amtToRemove = currentAmount - newAmount;
                     count = 0;
                     result = [];
+                    // unless the count is higher than amtToRemove, ignore purchases
                     for (i = 0; i < newPurchaseHistory.length; i++) {
                         newPurchase = newPurchaseHistory[i];
-                        if (newPurchase.amount + count <= target) {
+                        if (newPurchase.amount + count <= amtToRemove) {
                             count += newPurchase.amount;
                         }
-                        else if (count < target && target < count + newPurchase.amount) {
-                            newPurchase.amount = newPurchase.amount - (target - count);
+                        else if (count < amtToRemove && amtToRemove < count + newPurchase.amount) {
+                            newPurchase.amount = newPurchase.amount - (amtToRemove - count);
                             result.push(newPurchase);
-                            count += (target - count);
+                            count += (amtToRemove - count);
                         }
                         else {
                             result.push(newPurchase);
