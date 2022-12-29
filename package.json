@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "nodemon server.ts",
-    "build": "tsc server.ts --outDir build",
+    "build": "tsc server.ts --outDir ../server-build",
     "start": "node build/server.js"
   },
   "name": "server",
