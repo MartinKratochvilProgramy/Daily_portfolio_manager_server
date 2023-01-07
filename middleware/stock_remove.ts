@@ -5,7 +5,7 @@ import { updateStocks } from "../utils/updateStocks";
 import { User } from '../models/user';
 import { verifyToken } from '../utils/jwt';
 
-export const stock_remove = async (req: Request, res: Response) => {
+export default async function stock_remove(req: Request, res: Response) {
   // remove stock from db
   const { authorization } = req.headers;
 

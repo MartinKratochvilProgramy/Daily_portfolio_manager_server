@@ -5,7 +5,7 @@ import { Stocks } from '../models/stocks';
 import { User } from '../models/user';
 const bcrypt = require("bcrypt");
 
-export const register = async (req: Request, res: Response) => {
+export default async function register(req: Request, res: Response) {
   // create user account, return 500 err if no password or username given
   let { username, password, settings } = req.body;
 

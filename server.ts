@@ -1,20 +1,21 @@
+import {
+  investments_history,
+  login,
+  register,
+  relative_change,
+  set_theme,
+  stock_add,
+  stock_remove,
+  stocks_history,
+  stocks,
+  update,
+  validate_username
+} from './middleware';
 const express = require("express");
 const cors = require('cors');
-require('dotenv').config()
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-
-import { investments_history } from "./middleware/investments_history";
-import { login } from "./middleware/login";
-import { register } from "./middleware/register";
-import { relative_change } from "./middleware/relative_change";
-import { set_theme } from "./middleware/set_theme";
-import { stock_add } from "./middleware/stock_add";
-import { stock_remove } from "./middleware/stock_remove";
-import { stocks_history } from "./middleware/stocks_history";
-import { stocks } from "./middleware/stocks";
-import { update } from "./middleware/update";
-import { validate_username } from "./middleware/validate_username";
+require('dotenv').config()
 
 export const app = express();
 

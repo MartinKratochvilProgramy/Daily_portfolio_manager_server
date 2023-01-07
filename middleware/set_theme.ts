@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { User } from '../models/user';
 import { verifyToken } from '../utils/jwt';
 
-export const set_theme = async (req: Request, res: Response) => {
+export default async function set_theme(req: Request, res: Response) {
   // change theme
   const { authorization } = req.headers;
 

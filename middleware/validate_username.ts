@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../models/user';
 
-export const validate_username = async (req: Request, res: Response) => {
+export default async function validate_username(req: Request, res: Response) {
     // create user account, return 500 err if no password or username given
     let { username } = req.body;
 

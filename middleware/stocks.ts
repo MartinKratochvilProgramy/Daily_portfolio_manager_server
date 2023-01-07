@@ -3,7 +3,7 @@ import { getUserStocks } from "../utils/getUserStocks";
 import { User } from '../models/user';
 import { verifyToken } from '../utils/jwt';
 
-export const stocks = async (req: Request, res: Response) => {
+export default async function stocks(req: Request, res: Response) {
   // send stocks to client
   const { authorization } = req.headers;
 

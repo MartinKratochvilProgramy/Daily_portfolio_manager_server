@@ -9,7 +9,7 @@ interface StocksHistory {
   netWorth: number;
 }
 
-export const stocks_history = async (req: Request, res: Response) => {
+export default async function stocks_history(req: Request, res: Response) {
   // send stocks to client
   const { authorization } = req.headers;
 

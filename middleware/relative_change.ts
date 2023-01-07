@@ -9,7 +9,7 @@ interface FormattedRelativeChangeHistory {
   relativeChange: number;
 }
 
-export const relative_change = async (req: Request, res: Response) => {
+export default async function relative_change(req: Request, res: Response) {
   // send invested amounts to client
   const { authorization } = req.headers;
 

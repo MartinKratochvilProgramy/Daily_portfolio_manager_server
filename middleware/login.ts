@@ -3,7 +3,7 @@ import { createToken } from '../utils/jwt';
 import { User } from '../models/user';
 const bcrypt = require("bcrypt");
 
-export const login = async (req: Request, res: Response) => {
+export default async function login(req: Request, res: Response) {
   // validate user account on login
 
   const { username, password } = req.body;

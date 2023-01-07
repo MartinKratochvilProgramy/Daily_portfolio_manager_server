@@ -8,7 +8,7 @@ interface InvestmentHistory {
   total: number;
 }
 
-export const investments_history = async (req: Request, res: Response) => {
+export default async function investments_history(req: Request, res: Response) {
   // send invested amounts to client
   const { authorization } = req.headers;
 

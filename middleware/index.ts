@@ -1,0 +1,11 @@
+export { default as investments_history } from './investments_history';
+export { default as login } from './login';
+export { default as register } from './register';
+export { default as relative_change } from './relative_change';
+export { default as set_theme } from './set_theme';
+export { default as stock_add } from './stock_add';
+export { default as stock_remove } from './stock_remove';
+export { default as stocks_history } from './stocks_history';
+export { default as stocks } from './stocks';
+export { default as update } from './update';
+export { default as validate_username } from './validate_username';

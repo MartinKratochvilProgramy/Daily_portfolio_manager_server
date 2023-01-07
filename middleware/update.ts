@@ -4,7 +4,7 @@ import { updateStocks } from "../utils/updateStocks";
 import { updateRelativeChange } from "../utils/updateRelativeChange";
 import { Stocks } from '../models/stocks';
 
-export const update = async (req: Request, res: Response) => {
+export default async function update(req: Request, res: Response) {
   // after auth run through all user's stocks and update current price,
   // net worth and relative change
   const { password } = req.headers;

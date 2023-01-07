@@ -2,12 +2,12 @@ import { Request, Response } from 'express';
 import { getConversionRate } from "../utils/getConversionRate";
 import { getUserStocks } from "../utils/getUserStocks";
 import { createNewStock, addToExistingStock } from "../utils/stockAdd";
-const fetch = require('node-fetch');
 import { User } from '../models/user';
 import { Stocks } from '../models/stocks';
 import { verifyToken } from '../utils/jwt';
+const fetch = require('node-fetch');
 
-export const stock_add = async (req: Request, res: Response) => {
+export default async function stock_add(req: Request, res: Response) {
   // add stock to db
   const stockItems = req.body.newStock;   // new stock object
   const ticker = stockItems.ticker.toUpperCase();
