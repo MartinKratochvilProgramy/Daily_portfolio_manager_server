@@ -24,7 +24,7 @@ export default async function getTickerChartData(
     const tickerData: TickerChartData = await new Promise((res, rej) => {
         yahooFinance.historical({
         symbol: ticker,
-        period: (period === "6m" || period === "1y") ? "d" : "w",
+        period: "d",
         from: startDate,
         to:  new Date(),
         }, function (err: any, quotes: any) {
