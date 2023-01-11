@@ -34,6 +34,8 @@ export default async function ticker_chart(req: Request, res: Response) {
         }
         
         const data = await getTickerChartData(ticker, period);
+
+        console.log(data);
         
         res.json(data);
 
