@@ -41,7 +41,7 @@ var jwt_1 = require("../utils/jwt");
 var getTickerChartData_1 = require("../utils/getTickerChartData");
 function ticker_chart(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var authorization, _a, period, ticker, _b, auth, _c, token, decoded, user, data, error_1;
+        var authorization, _a, period, ticker, _b, auth, _c, token, decoded, user, chartData, error_1;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
@@ -71,8 +71,8 @@ function ticker_chart(req, res) {
                     }
                     return [4 /*yield*/, (0, getTickerChartData_1["default"])(ticker, period)];
                 case 3:
-                    data = _d.sent();
-                    res.json(data);
+                    chartData = _d.sent();
+                    res.json(chartData);
                     return [3 /*break*/, 5];
                 case 4:
                     error_1 = _d.sent();

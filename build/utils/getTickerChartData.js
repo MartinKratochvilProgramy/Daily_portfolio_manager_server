@@ -57,7 +57,7 @@ function getTickerChartData(ticker, period) {
                     return [4 /*yield*/, new Promise(function (res, rej) {
                             yahooFinance.historical({
                                 symbol: ticker,
-                                period: (period === "6m" || period === "1y") ? "d" : "w",
+                                period: "d",
                                 from: startDate,
                                 to: new Date()
                             }, function (err, quotes) {
