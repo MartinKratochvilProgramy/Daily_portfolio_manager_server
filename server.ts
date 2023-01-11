@@ -9,7 +9,8 @@ import {
   stocks_history,
   stocks,
   update,
-  validate_username
+  validate_username,
+  ticker_chart
 } from './middleware';
 const express = require("express");
 const cors = require('cors');
@@ -37,6 +38,7 @@ app.get("/stocks_history", stocks_history);
 app.get("/stocks", stocks);
 app.post("/update", update);
 app.post("/validate_username", validate_username);
+app.post("/ticker_chart", ticker_chart);
 
 mongoose.connect(DATABASE_ROUTE, {
   useUnifiedTopology: true,

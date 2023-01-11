@@ -9,3 +9,4 @@ export { default as stocks_history } from './stocks_history';
 export { default as stocks } from './stocks';
 export { default as update } from './update';
 export { default as validate_username } from './validate_username';
+export { default as ticker_chart } from './ticker_chart';
