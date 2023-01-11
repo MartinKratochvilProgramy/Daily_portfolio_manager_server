@@ -36,64 +36,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.update = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
 var updateStocks_1 = require("../utils/updateStocks");
 var updateRelativeChange_1 = require("../utils/updateRelativeChange");
 var stocks_1 = require("../models/stocks");
-var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var password, output, today, allUsers, i, stocksoutput, relativeChangeoutput, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                password = req.headers.password;
-                if (password !== process.env.SECRET) {
-                    res.status(403);
+function update(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var password, output, today, allUsers, i, stocksoutput, relativeChangeoutput, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    password = req.headers.password;
+                    if (password !== process.env.SECRET) {
+                        res.status(403);
+                        res.json({
+                            message: "Failed, wrong credentials"
+                        });
+                        return [2 /*return*/];
+                    }
+                    output = [];
+                    today = new Date();
+                    output.push("Updating stock info at day ".concat((0, getCurrentDate_1.getCurrentDate)()));
+                    if (!(today.getDay() !== 6 && today.getDay() !== 0)) return [3 /*break*/, 9];
+                    return [4 /*yield*/, stocks_1.Stocks.find()];
+                case 1:
+                    allUsers = _a.sent();
+                    i = 0;
+                    _a.label = 2;
+                case 2:
+                    if (!(i < allUsers.length)) return [3 /*break*/, 8];
+                    _a.label = 3;
+                case 3:
+                    _a.trys.push([3, 6, , 7]);
+                    return [4 /*yield*/, (0, updateStocks_1.updateStocks)(allUsers[i].username)];
+                case 4:
+                    stocksoutput = _a.sent();
+                    output.push(stocksoutput);
+                    return [4 /*yield*/, (0, updateRelativeChange_1.updateRelativeChange)(allUsers[i].username)];
+                case 5:
+                    relativeChangeoutput = _a.sent();
+                    output.push(relativeChangeoutput);
+                    return [3 /*break*/, 7];
+                case 6:
+                    error_1 = _a.sent();
+                    output.push("ERROR: ".concat(error_1, " USER: ").concat(allUsers[i].username));
+                    return [3 /*break*/, 7];
+                case 7:
+                    i++;
+                    return [3 /*break*/, 2];
+                case 8:
+                    output.push("-------------------");
+                    _a.label = 9;
+                case 9:
                     res.json({
-                        message: "Failed, wrong credentials"
+                        message: "Success",
+                        output: output
                     });
                     return [2 /*return*/];
-                }
-                output = [];
-                today = new Date();
-                output.push("Updating stock info at day ".concat((0, getCurrentDate_1.getCurrentDate)()));
-                if (!(today.getDay() !== 6 && today.getDay() !== 0)) return [3 /*break*/, 9];
-                return [4 /*yield*/, stocks_1.Stocks.find()];
-            case 1:
-                allUsers = _a.sent();
-                i = 0;
-                _a.label = 2;
-            case 2:
-                if (!(i < allUsers.length)) return [3 /*break*/, 8];
-                _a.label = 3;
-            case 3:
-                _a.trys.push([3, 6, , 7]);
-                return [4 /*yield*/, (0, updateStocks_1.updateStocks)(allUsers[i].username)];
-            case 4:
-                stocksoutput = _a.sent();
-                output.push(stocksoutput);
-                return [4 /*yield*/, (0, updateRelativeChange_1.updateRelativeChange)(allUsers[i].username)];
-            case 5:
-                relativeChangeoutput = _a.sent();
-                output.push(relativeChangeoutput);
-                return [3 /*break*/, 7];
-            case 6:
-                error_1 = _a.sent();
-                output.push("ERROR: ".concat(error_1, " USER: ").concat(allUsers[i].username));
-                return [3 /*break*/, 7];
-            case 7:
-                i++;
-                return [3 /*break*/, 2];
-            case 8:
-                output.push("-------------------");
-                _a.label = 9;
-            case 9:
-                res.json({
-                    message: "Success",
-                    output: output
-                });
-                return [2 /*return*/];
-        }
+            }
+        });
     });
-}); };
-exports.update = update;
+}
+exports["default"] = update;
+;

@@ -36,57 +36,59 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.stock_remove = void 0;
 var getUserStocks_1 = require("../utils/getUserStocks");
 var stockRemove_1 = require("../utils/stockRemove");
 var updateStocks_1 = require("../utils/updateStocks");
 var user_1 = require("../models/user");
 var jwt_1 = require("../utils/jwt");
-var stock_remove = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var authorization, ticker, newAmount, _a, auth, _b, username, token, decoded, user, userStocks, error_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                authorization = req.headers.authorization;
-                if (!authorization) {
-                    res.json({
-                        message: "Invalid header"
-                    });
-                    return [2 /*return*/];
-                }
-                ticker = req.body.ticker;
-                newAmount = req.body.amount;
-                _a = authorization.split(" "), auth = _a[1];
-                _b = auth.split(":"), username = _b[0], token = _b[1];
-                _c.label = 1;
-            case 1:
-                _c.trys.push([1, 5, , 6]);
-                decoded = (0, jwt_1.verifyToken)(token);
-                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
-            case 2:
-                user = _c.sent();
-                if (!user) {
-                    res.status(403);
-                    res.json({
-                        message: "invalid access"
-                    });
-                    return [2 /*return*/];
-                }
-                (0, stockRemove_1.stockRemove)(username, ticker, newAmount, res);
-                return [4 /*yield*/, (0, updateStocks_1.updateStocks)(username)];
-            case 3:
-                _c.sent();
-                return [4 /*yield*/, (0, getUserStocks_1.getUserStocks)(username)];
-            case 4:
-                userStocks = _c.sent();
-                res.json(userStocks);
-                return [3 /*break*/, 6];
-            case 5:
-                error_1 = _c.sent();
-                console.log(error_1);
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
-        }
+function stock_remove(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var authorization, ticker, newAmount, _a, auth, _b, username, token, decoded, user, userStocks, error_1;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    authorization = req.headers.authorization;
+                    if (!authorization) {
+                        res.json({
+                            message: "Invalid header"
+                        });
+                        return [2 /*return*/];
+                    }
+                    ticker = req.body.ticker;
+                    newAmount = req.body.amount;
+                    _a = authorization.split(" "), auth = _a[1];
+                    _b = auth.split(":"), username = _b[0], token = _b[1];
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 5, , 6]);
+                    decoded = (0, jwt_1.verifyToken)(token);
+                    return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
+                case 2:
+                    user = _c.sent();
+                    if (!user) {
+                        res.status(403);
+                        res.json({
+                            message: "invalid access"
+                        });
+                        return [2 /*return*/];
+                    }
+                    (0, stockRemove_1.stockRemove)(username, ticker, newAmount, res);
+                    return [4 /*yield*/, (0, updateStocks_1.updateStocks)(username)];
+                case 3:
+                    _c.sent();
+                    return [4 /*yield*/, (0, getUserStocks_1.getUserStocks)(username)];
+                case 4:
+                    userStocks = _c.sent();
+                    res.json(userStocks);
+                    return [3 /*break*/, 6];
+                case 5:
+                    error_1 = _c.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
+            }
+        });
     });
-}); };
-exports.stock_remove = stock_remove;
+}
+exports["default"] = stock_remove;
+;

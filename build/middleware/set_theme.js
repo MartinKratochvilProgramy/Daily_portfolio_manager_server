@@ -36,49 +36,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.set_theme = void 0;
 var user_1 = require("../models/user");
 var jwt_1 = require("../utils/jwt");
-var set_theme = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var authorization, theme, _a, auth, _b, token, decoded, user, error_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                authorization = req.headers.authorization;
-                if (!authorization) {
-                    res.json({
-                        message: "Invalid header"
-                    });
-                    return [2 /*return*/];
-                }
-                theme = req.body.theme;
-                _a = authorization.split(" "), auth = _a[1];
-                _b = auth.split(":"), token = _b[1];
-                _c.label = 1;
-            case 1:
-                _c.trys.push([1, 4, , 5]);
-                decoded = (0, jwt_1.verifyToken)(token);
-                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
-            case 2:
-                user = _c.sent();
-                if (!user) {
-                    res.status(403);
-                    res.json({
-                        message: "Invalid access"
-                    });
-                    return [2 /*return*/];
-                }
-                user.settings.theme = theme;
-                return [4 /*yield*/, user.save()];
-            case 3:
-                _c.sent();
-                return [3 /*break*/, 5];
-            case 4:
-                error_1 = _c.sent();
-                console.log(error_1);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
-        }
+function set_theme(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var authorization, theme, _a, auth, _b, token, decoded, user, error_1;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    authorization = req.headers.authorization;
+                    if (!authorization) {
+                        res.json({
+                            message: "Invalid header"
+                        });
+                        return [2 /*return*/];
+                    }
+                    theme = req.body.theme;
+                    _a = authorization.split(" "), auth = _a[1];
+                    _b = auth.split(":"), token = _b[1];
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 4, , 5]);
+                    decoded = (0, jwt_1.verifyToken)(token);
+                    return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
+                case 2:
+                    user = _c.sent();
+                    if (!user) {
+                        res.status(403);
+                        res.json({
+                            message: "Invalid access"
+                        });
+                        return [2 /*return*/];
+                    }
+                    user.settings.theme = theme;
+                    return [4 /*yield*/, user.save()];
+                case 3:
+                    _c.sent();
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _c.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
+            }
+        });
     });
-}); };
-exports.set_theme = set_theme;
+}
+exports["default"] = set_theme;
+;

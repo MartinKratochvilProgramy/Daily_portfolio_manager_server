@@ -36,58 +36,60 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.investments_history = void 0;
 var user_1 = require("../models/user");
 var stocks_1 = require("../models/stocks");
 var jwt_1 = require("../utils/jwt");
-var investments_history = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var authorization, _a, auth, _b, username, token, decoded, user, foundInvestments, investments, investmentHistory, _i, investments_1, investment;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                authorization = req.headers.authorization;
-                if (!authorization) {
-                    res.json({
-                        message: "Invalid header"
-                    });
-                    return [2 /*return*/];
-                }
-                _a = authorization.split(" "), auth = _a[1];
-                _b = auth.split(":"), username = _b[0], token = _b[1];
-                decoded = (0, jwt_1.verifyToken)(token);
-                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
-            case 1:
-                user = _c.sent();
-                if (!user) {
-                    res.status(403);
-                    res.json({
-                        message: "Invalid access"
-                    });
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
-            case 2:
-                foundInvestments = _c.sent();
-                if (foundInvestments) {
-                    investments = foundInvestments.totalInvestedHistory;
-                    investmentHistory = [];
-                    for (_i = 0, investments_1 = investments; _i < investments_1.length; _i++) {
-                        investment = investments_1[_i];
-                        investmentHistory.push({
-                            date: investment.date,
-                            total: investment.total
+function investments_history(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var authorization, _a, auth, _b, username, token, decoded, user, foundInvestments, investments, investmentHistory, _i, investments_1, investment;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    authorization = req.headers.authorization;
+                    if (!authorization) {
+                        res.json({
+                            message: "Invalid header"
+                        });
+                        return [2 /*return*/];
+                    }
+                    _a = authorization.split(" "), auth = _a[1];
+                    _b = auth.split(":"), username = _b[0], token = _b[1];
+                    decoded = (0, jwt_1.verifyToken)(token);
+                    return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
+                case 1:
+                    user = _c.sent();
+                    if (!user) {
+                        res.status(403);
+                        res.json({
+                            message: "Invalid access"
+                        });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
+                case 2:
+                    foundInvestments = _c.sent();
+                    if (foundInvestments) {
+                        investments = foundInvestments.totalInvestedHistory;
+                        investmentHistory = [];
+                        for (_i = 0, investments_1 = investments; _i < investments_1.length; _i++) {
+                            investment = investments_1[_i];
+                            investmentHistory.push({
+                                date: investment.date,
+                                total: investment.total
+                            });
+                        }
+                        res.json(investmentHistory);
+                    }
+                    else {
+                        res.status(404);
+                        res.json({
+                            message: "Stocks not found"
                         });
                     }
-                    res.json(investmentHistory);
-                }
-                else {
-                    res.status(404);
-                    res.json({
-                        message: "Stocks not found"
-                    });
-                }
-                return [2 /*return*/];
-        }
+                    return [2 /*return*/];
+            }
+        });
     });
-}); };
-exports.investments_history = investments_history;
+}
+exports["default"] = investments_history;
+;

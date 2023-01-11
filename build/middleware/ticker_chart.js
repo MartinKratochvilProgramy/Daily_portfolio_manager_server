@@ -37,28 +37,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var user_1 = require("../models/user");
-function validate_username(req, res) {
+var jwt_1 = require("../utils/jwt");
+var getTickerChartData_1 = require("../utils/getTickerChartData");
+function ticker_chart(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var username, existingUser;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var authorization, _a, period, ticker, _b, auth, _c, token, decoded, user, data, error_1;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
-                    username = req.body.username;
-                    return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
-                case 1:
-                    existingUser = _a.sent();
-                    if (existingUser) {
-                        res.status(500);
-                        res.json({ message: 'User already exists' });
+                    authorization = req.headers.authorization;
+                    _a = req.body, period = _a.period, ticker = _a.ticker;
+                    if (!authorization) {
+                        res.json({
+                            message: "Invalid header"
+                        });
                         return [2 /*return*/];
                     }
-                    res.json({
-                        message: "Success"
-                    });
-                    return [2 /*return*/];
+                    _b = authorization.split(" "), auth = _b[1];
+                    _c = auth.split(":"), token = _c[1];
+                    _d.label = 1;
+                case 1:
+                    _d.trys.push([1, 4, , 5]);
+                    decoded = (0, jwt_1.verifyToken)(token);
+                    return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
+                case 2:
+                    user = _d.sent();
+                    if (!user) {
+                        res.status(403);
+                        res.json({
+                            message: "Invalid access"
+                        });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, (0, getTickerChartData_1["default"])(ticker, period)];
+                case 3:
+                    data = _d.sent();
+                    res.json(data);
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _d.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
     });
 }
-exports["default"] = validate_username;
+exports["default"] = ticker_chart;
 ;

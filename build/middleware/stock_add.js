@@ -36,89 +36,91 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.stock_add = void 0;
 var getConversionRate_1 = require("../utils/getConversionRate");
 var getUserStocks_1 = require("../utils/getUserStocks");
 var stockAdd_1 = require("../utils/stockAdd");
-var fetch = require('node-fetch');
 var user_1 = require("../models/user");
 var stocks_1 = require("../models/stocks");
 var jwt_1 = require("../utils/jwt");
-var stock_add = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var stockItems, ticker, amount, authorization, _a, auth, _b, username, token, decoded, user, stockInfo, stockInfoJson, conversionRate, value, stocks, _c, _d, _e, _f, error_1;
-    return __generator(this, function (_g) {
-        switch (_g.label) {
-            case 0:
-                stockItems = req.body.newStock;
-                ticker = stockItems.ticker.toUpperCase();
-                amount = stockItems.amount;
-                authorization = req.headers.authorization;
-                if (!authorization) {
-                    res.json({
-                        message: "Invalid header"
-                    });
+var fetch = require('node-fetch');
+function stock_add(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var stockItems, ticker, amount, authorization, _a, auth, _b, username, token, decoded, user, stockInfo, stockInfoJson, conversionRate, value, stocks, _c, _d, _e, _f, error_1;
+        return __generator(this, function (_g) {
+            switch (_g.label) {
+                case 0:
+                    stockItems = req.body.newStock;
+                    ticker = stockItems.ticker.toUpperCase();
+                    amount = stockItems.amount;
+                    authorization = req.headers.authorization;
+                    if (!authorization) {
+                        res.json({
+                            message: "Invalid header"
+                        });
+                        return [2 /*return*/];
+                    }
+                    _a = authorization.split(" "), auth = _a[1];
+                    _b = auth.split(":"), username = _b[0], token = _b[1];
+                    _g.label = 1;
+                case 1:
+                    _g.trys.push([1, 13, , 14]);
+                    decoded = (0, jwt_1.verifyToken)(token);
+                    return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
+                case 2:
+                    user = _g.sent();
+                    if (!user) {
+                        res.status(403);
+                        res.json({
+                            message: "Invalid access"
+                        });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, fetch("https://query1.finance.yahoo.com/v8/finance/chart/".concat(ticker))];
+                case 3:
+                    stockInfo = _g.sent();
+                    return [4 /*yield*/, stockInfo.json()];
+                case 4:
+                    stockInfoJson = _g.sent();
+                    if (!stockInfoJson.chart.result) {
+                        res.status(403);
+                        res.json({
+                            message: "Ticker not found"
+                        });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, (0, getConversionRate_1.getConversionRate)(stockInfoJson.chart.result[0].meta.currency, user.settings.currency)];
+                case 5:
+                    conversionRate = _g.sent();
+                    value = (stockInfoJson.chart.result[0].meta.regularMarketPrice * conversionRate).toFixed(2);
+                    return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
+                case 6:
+                    stocks = _g.sent();
+                    if (!!stocks) return [3 /*break*/, 9];
+                    return [4 /*yield*/, (0, stockAdd_1.createNewStock)(username, ticker, amount, parseFloat(value))];
+                case 7:
+                    _g.sent();
+                    _d = (_c = res).json;
+                    return [4 /*yield*/, (0, getUserStocks_1.getUserStocks)(username)];
+                case 8:
+                    _d.apply(_c, [_g.sent()]);
                     return [2 /*return*/];
-                }
-                _a = authorization.split(" "), auth = _a[1];
-                _b = auth.split(":"), username = _b[0], token = _b[1];
-                _g.label = 1;
-            case 1:
-                _g.trys.push([1, 13, , 14]);
-                decoded = (0, jwt_1.verifyToken)(token);
-                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
-            case 2:
-                user = _g.sent();
-                if (!user) {
-                    res.status(403);
-                    res.json({
-                        message: "Invalid access"
-                    });
+                case 9: return [4 /*yield*/, (0, stockAdd_1.addToExistingStock)(stocks, ticker, amount, parseFloat(value))];
+                case 10:
+                    _g.sent();
+                    _f = (_e = res).json;
+                    return [4 /*yield*/, (0, getUserStocks_1.getUserStocks)(username)];
+                case 11:
+                    _f.apply(_e, [_g.sent()]);
                     return [2 /*return*/];
-                }
-                return [4 /*yield*/, fetch("https://query1.finance.yahoo.com/v8/finance/chart/".concat(ticker))];
-            case 3:
-                stockInfo = _g.sent();
-                return [4 /*yield*/, stockInfo.json()];
-            case 4:
-                stockInfoJson = _g.sent();
-                if (!stockInfoJson.chart.result) {
-                    res.status(403);
-                    res.json({
-                        message: "Ticker not found"
-                    });
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, (0, getConversionRate_1.getConversionRate)(stockInfoJson.chart.result[0].meta.currency, user.settings.currency)];
-            case 5:
-                conversionRate = _g.sent();
-                value = (stockInfoJson.chart.result[0].meta.regularMarketPrice * conversionRate).toFixed(2);
-                return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
-            case 6:
-                stocks = _g.sent();
-                if (!!stocks) return [3 /*break*/, 9];
-                return [4 /*yield*/, (0, stockAdd_1.createNewStock)(username, ticker, amount, parseFloat(value))];
-            case 7:
-                _g.sent();
-                _d = (_c = res).json;
-                return [4 /*yield*/, (0, getUserStocks_1.getUserStocks)(username)];
-            case 8:
-                _d.apply(_c, [_g.sent()]);
-                return [2 /*return*/];
-            case 9: return [4 /*yield*/, (0, stockAdd_1.addToExistingStock)(stocks, ticker, amount, parseFloat(value))];
-            case 10:
-                _g.sent();
-                _f = (_e = res).json;
-                return [4 /*yield*/, (0, getUserStocks_1.getUserStocks)(username)];
-            case 11:
-                _f.apply(_e, [_g.sent()]);
-                return [2 /*return*/];
-            case 12: return [3 /*break*/, 14];
-            case 13:
-                error_1 = _g.sent();
-                console.log(error_1);
-                return [3 /*break*/, 14];
-            case 14: return [2 /*return*/];
-        }
+                case 12: return [3 /*break*/, 14];
+                case 13:
+                    error_1 = _g.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 14];
+                case 14: return [2 /*return*/];
+            }
+        });
     });
-}); };
-exports.stock_add = stock_add;
+}
+exports["default"] = stock_add;
+;

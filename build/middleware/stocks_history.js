@@ -36,74 +36,76 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.stocks_history = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
 var user_1 = require("../models/user");
 var stocks_1 = require("../models/stocks");
 var jwt_1 = require("../utils/jwt");
-var stocks_history = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var authorization, _a, auth, _b, username, token, decoded, user, foundStocks, stocks, stocksHistory, i, error_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                authorization = req.headers.authorization;
-                if (!authorization) {
-                    res.json({
-                        message: "Invalid header"
-                    });
-                    return [2 /*return*/];
-                }
-                _a = authorization.split(" "), auth = _a[1];
-                _b = auth.split(":"), username = _b[0], token = _b[1];
-                _c.label = 1;
-            case 1:
-                _c.trys.push([1, 4, , 5]);
-                decoded = (0, jwt_1.verifyToken)(token);
-                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
-            case 2:
-                user = _c.sent();
-                if (!user) {
-                    res.status(403);
-                    res.json({
-                        message: "Invalid access"
-                    });
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
-            case 3:
-                foundStocks = _c.sent();
-                if (foundStocks.netWorthHistory.length > 0) {
-                    stocks = foundStocks.netWorthHistory;
-                    stocksHistory = [];
-                    // strip _id propety from stocks
-                    for (i = 0; i < stocks.length; i++) {
-                        stocksHistory.push({
-                            date: stocks[i].date,
-                            netWorth: stocks[i].netWorth
+function stocks_history(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var authorization, _a, auth, _b, username, token, decoded, user, foundStocks, stocks, stocksHistory, i, error_1;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    authorization = req.headers.authorization;
+                    if (!authorization) {
+                        res.json({
+                            message: "Invalid header"
+                        });
+                        return [2 /*return*/];
+                    }
+                    _a = authorization.split(" "), auth = _a[1];
+                    _b = auth.split(":"), username = _b[0], token = _b[1];
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 4, , 5]);
+                    decoded = (0, jwt_1.verifyToken)(token);
+                    return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
+                case 2:
+                    user = _c.sent();
+                    if (!user) {
+                        res.status(403);
+                        res.json({
+                            message: "Invalid access"
+                        });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
+                case 3:
+                    foundStocks = _c.sent();
+                    if (foundStocks.netWorthHistory.length > 0) {
+                        stocks = foundStocks.netWorthHistory;
+                        stocksHistory = [];
+                        // strip _id propety from stocks
+                        for (i = 0; i < stocks.length; i++) {
+                            stocksHistory.push({
+                                date: stocks[i].date,
+                                netWorth: stocks[i].netWorth
+                            });
+                        }
+                        res.json(stocksHistory);
+                    }
+                    else if (foundStocks.netWorthHistory.length === 0) {
+                        // user history is empty
+                        res.json([{
+                                date: (0, getCurrentDate_1.getCurrentDate)(),
+                                netWorth: 0
+                            }]);
+                    }
+                    else {
+                        res.status(404);
+                        res.json({
+                            message: "Stocks history not found"
                         });
                     }
-                    res.json(stocksHistory);
-                }
-                else if (foundStocks.netWorthHistory.length === 0) {
-                    // user history is empty
-                    res.json([{
-                            date: (0, getCurrentDate_1.getCurrentDate)(),
-                            netWorth: 0
-                        }]);
-                }
-                else {
-                    res.status(404);
-                    res.json({
-                        message: "Stocks history not found"
-                    });
-                }
-                return [3 /*break*/, 5];
-            case 4:
-                error_1 = _c.sent();
-                console.log(error_1);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
-        }
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _c.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
+            }
+        });
     });
-}); };
-exports.stocks_history = stocks_history;
+}
+exports["default"] = stocks_history;
+;

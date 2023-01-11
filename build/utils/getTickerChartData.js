@@ -36,29 +36,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var user_1 = require("../models/user");
-function validate_username(req, res) {
+var yahooFinance = require('yahoo-finance');
+var numberOfMonths = {
+    "6m": -6,
+    "1y": -12,
+    "2y": -24,
+    "5y": -60
+};
+function addMonths(date, period) {
+    date.setMonth(date.getMonth() + numberOfMonths[period]);
+    return date;
+}
+function getTickerChartData(ticker, period) {
     return __awaiter(this, void 0, void 0, function () {
-        var username, existingUser;
+        var startDate, tickerData;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    username = req.body.username;
-                    return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
+                    startDate = addMonths(new Date(), period);
+                    return [4 /*yield*/, new Promise(function (res, rej) {
+                            yahooFinance.historical({
+                                symbol: ticker,
+                                period: (period === "6m" || period === "1y") ? "d" : "w",
+                                from: startDate,
+                                to: new Date()
+                            }, function (err, quotes) {
+                                if (err)
+                                    rej(err);
+                                var dates = [];
+                                var values = [];
+                                for (var i = 0; i < quotes.length; i++) {
+                                    if (quotes[i].date !== null && quotes[i].open !== null) {
+                                        dates.push(quotes[i].date.toISOString().split('T')[0]);
+                                        values.push(quotes[i].open.toFixed(2));
+                                    }
+                                }
+                                dates.reverse();
+                                values.reverse();
+                                res({ ticker: ticker, dates: dates, values: values });
+                            });
+                        })];
                 case 1:
-                    existingUser = _a.sent();
-                    if (existingUser) {
-                        res.status(500);
-                        res.json({ message: 'User already exists' });
-                        return [2 /*return*/];
-                    }
-                    res.json({
-                        message: "Success"
-                    });
-                    return [2 /*return*/];
+                    tickerData = _a.sent();
+                    return [2 /*return*/, tickerData];
             }
         });
     });
 }
-exports["default"] = validate_username;
-;
+exports["default"] = getTickerChartData;

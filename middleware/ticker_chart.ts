@@ -8,7 +8,7 @@ export default async function ticker_chart(req: Request, res: Response) {
     const { authorization } = req.headers;
     const { period, ticker } = req.body;
 
-    
+
     if (!authorization) {
         res.json({
             message: "Invalid header"
@@ -35,8 +35,6 @@ export default async function ticker_chart(req: Request, res: Response) {
         
         const data = await getTickerChartData(ticker, period);
 
-        console.log(data);
-        
         res.json(data);
 
     } catch (error) {

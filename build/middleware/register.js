@@ -36,79 +36,81 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.register = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
 var jwt_1 = require("../utils/jwt");
 var stocks_1 = require("../models/stocks");
 var user_1 = require("../models/user");
 var bcrypt = require("bcrypt");
-var register = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, username, password, settings, existingUser, salt, today, user, accessToken, error_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, username = _a.username, password = _a.password, settings = _a.settings;
-                return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
-            case 1:
-                existingUser = _b.sent();
-                if (existingUser) {
-                    res.status(500);
-                    res.json({
-                        message: "User already exists"
+function register(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, username, password, settings, existingUser, salt, today, user, accessToken, error_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = req.body, username = _a.username, password = _a.password, settings = _a.settings;
+                    return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
+                case 1:
+                    existingUser = _b.sent();
+                    if (existingUser) {
+                        res.status(500);
+                        res.json({
+                            message: "User already exists"
+                        });
+                        return [2 /*return*/];
+                    }
+                    _b.label = 2;
+                case 2:
+                    _b.trys.push([2, 8, , 9]);
+                    return [4 /*yield*/, bcrypt.genSalt(10)];
+                case 3:
+                    salt = _b.sent();
+                    return [4 /*yield*/, bcrypt.hash(password, salt)];
+                case 4:
+                    password = _b.sent();
+                    return [4 /*yield*/, user_1.User.create({ username: username, password: password, settings: settings })];
+                case 5:
+                    _b.sent();
+                    today = (0, getCurrentDate_1.getCurrentDate)();
+                    return [4 /*yield*/, stocks_1.Stocks.create({
+                            username: username,
+                            stocks: [],
+                            purchaseHistory: [],
+                            netWorthHistory: [{
+                                    date: today,
+                                    netWorth: 0
+                                }],
+                            relativeChangeHistory: [{
+                                    date: today,
+                                    relativeChange: 1
+                                }],
+                            totalInvestedHistory: [{
+                                    date: today,
+                                    total: 0
+                                }]
+                        })];
+                case 6:
+                    _b.sent();
+                    return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
+                case 7:
+                    user = _b.sent();
+                    accessToken = (0, jwt_1.createToken)({
+                        id: user._id
                     });
-                    return [2 /*return*/];
-                }
-                _b.label = 2;
-            case 2:
-                _b.trys.push([2, 8, , 9]);
-                return [4 /*yield*/, bcrypt.genSalt(10)];
-            case 3:
-                salt = _b.sent();
-                return [4 /*yield*/, bcrypt.hash(password, salt)];
-            case 4:
-                password = _b.sent();
-                return [4 /*yield*/, user_1.User.create({ username: username, password: password, settings: settings })];
-            case 5:
-                _b.sent();
-                today = (0, getCurrentDate_1.getCurrentDate)();
-                return [4 /*yield*/, stocks_1.Stocks.create({
+                    res.json({
+                        message: "Success",
                         username: username,
-                        stocks: [],
-                        purchaseHistory: [],
-                        netWorthHistory: [{
-                                date: today,
-                                netWorth: 0
-                            }],
-                        relativeChangeHistory: [{
-                                date: today,
-                                relativeChange: 1
-                            }],
-                        totalInvestedHistory: [{
-                                date: today,
-                                total: 0
-                            }]
-                    })];
-            case 6:
-                _b.sent();
-                return [4 /*yield*/, user_1.User.findOne({ username: username }).exec()];
-            case 7:
-                user = _b.sent();
-                accessToken = (0, jwt_1.createToken)({
-                    id: user._id
-                });
-                res.json({
-                    message: "Success",
-                    username: username,
-                    settings: settings,
-                    token: accessToken
-                });
-                return [3 /*break*/, 9];
-            case 8:
-                error_1 = _b.sent();
-                console.log(error_1);
-                return [3 /*break*/, 9];
-            case 9: return [2 /*return*/];
-        }
+                        settings: settings,
+                        token: accessToken
+                    });
+                    return [3 /*break*/, 9];
+                case 8:
+                    error_1 = _b.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 9];
+                case 9: return [2 /*return*/];
+            }
+        });
     });
-}); };
-exports.register = register;
+}
+exports["default"] = register;
+;

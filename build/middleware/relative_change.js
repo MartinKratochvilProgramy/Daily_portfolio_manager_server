@@ -36,74 +36,76 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.relative_change = void 0;
 var getCurrentDate_1 = require("../utils/getCurrentDate");
 var user_1 = require("../models/user");
 var stocks_1 = require("../models/stocks");
 var jwt_1 = require("../utils/jwt");
-var relative_change = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var authorization, _a, auth, _b, username, token, decoded, user, foundInvestments, relativeChangeHistory, formattedRelativeChangeHistory, i, error_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                authorization = req.headers.authorization;
-                if (!authorization) {
-                    res.json({
-                        message: "Invalid header"
-                    });
-                    return [2 /*return*/];
-                }
-                _a = authorization.split(" "), auth = _a[1];
-                _b = auth.split(":"), username = _b[0], token = _b[1];
-                _c.label = 1;
-            case 1:
-                _c.trys.push([1, 4, , 5]);
-                decoded = (0, jwt_1.verifyToken)(token);
-                return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
-            case 2:
-                user = _c.sent();
-                if (!user) {
-                    res.status(403);
-                    res.json({
-                        message: "Invalid access"
-                    });
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
-            case 3:
-                foundInvestments = _c.sent();
-                if (foundInvestments.relativeChangeHistory.length > 0) {
-                    relativeChangeHistory = foundInvestments.relativeChangeHistory;
-                    formattedRelativeChangeHistory = [];
-                    // strip _id propety from stocks
-                    for (i = 0; i < relativeChangeHistory.length; i++) {
-                        formattedRelativeChangeHistory.push({
-                            date: relativeChangeHistory[i].date,
-                            relativeChange: relativeChangeHistory[i].relativeChange
+function relative_change(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var authorization, _a, auth, _b, username, token, decoded, user, foundInvestments, relativeChangeHistory, formattedRelativeChangeHistory, i, error_1;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    authorization = req.headers.authorization;
+                    if (!authorization) {
+                        res.json({
+                            message: "Invalid header"
+                        });
+                        return [2 /*return*/];
+                    }
+                    _a = authorization.split(" "), auth = _a[1];
+                    _b = auth.split(":"), username = _b[0], token = _b[1];
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 4, , 5]);
+                    decoded = (0, jwt_1.verifyToken)(token);
+                    return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
+                case 2:
+                    user = _c.sent();
+                    if (!user) {
+                        res.status(403);
+                        res.json({
+                            message: "Invalid access"
+                        });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
+                case 3:
+                    foundInvestments = _c.sent();
+                    if (foundInvestments.relativeChangeHistory.length > 0) {
+                        relativeChangeHistory = foundInvestments.relativeChangeHistory;
+                        formattedRelativeChangeHistory = [];
+                        // strip _id propety from stocks
+                        for (i = 0; i < relativeChangeHistory.length; i++) {
+                            formattedRelativeChangeHistory.push({
+                                date: relativeChangeHistory[i].date,
+                                relativeChange: relativeChangeHistory[i].relativeChange
+                            });
+                        }
+                        res.json(formattedRelativeChangeHistory);
+                    }
+                    else if (foundInvestments.relativeChangeHistory.length === 0) {
+                        // user history is empty
+                        res.json([{
+                                date: (0, getCurrentDate_1.getCurrentDate)(),
+                                relativeChange: 1
+                            }]);
+                    }
+                    else {
+                        res.status(404);
+                        res.json({
+                            message: "Relative change not found"
                         });
                     }
-                    res.json(formattedRelativeChangeHistory);
-                }
-                else if (foundInvestments.relativeChangeHistory.length === 0) {
-                    // user history is empty
-                    res.json([{
-                            date: (0, getCurrentDate_1.getCurrentDate)(),
-                            relativeChange: 1
-                        }]);
-                }
-                else {
-                    res.status(404);
-                    res.json({
-                        message: "Relative change not found"
-                    });
-                }
-                return [3 /*break*/, 5];
-            case 4:
-                error_1 = _c.sent();
-                console.log(error_1);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
-        }
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _c.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
+            }
+        });
     });
-}); };
-exports.relative_change = relative_change;
+}
+exports["default"] = relative_change;
+;
