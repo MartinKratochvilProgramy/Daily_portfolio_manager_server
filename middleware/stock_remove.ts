@@ -36,7 +36,7 @@ export default async function stock_remove(req: Request, res: Response) {
       return;
     }
 
-    stockRemove(username, ticker, newAmount, res);
+    await stockRemove(username, ticker, newAmount, res);
     await updateStocks(username);
 
     const userStocks = await getUserStocks(username);

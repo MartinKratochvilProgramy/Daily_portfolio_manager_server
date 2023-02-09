@@ -45,7 +45,7 @@ var stockRemove = function (username, ticker, newAmount, res) { return __awaiter
             case 0: return [4 /*yield*/, stocks_1.Stocks.findOne({ username: username }).exec()];
             case 1:
                 stocks = _a.sent();
-                currentAmount = stocks.stocks[stocks.stocks.findIndex(function (StockInterface) { return StockInterface.ticker === ticker; })].amount;
+                currentAmount = stocks.stocks[stocks.stocks.findIndex(function (stock) { return stock.ticker === ticker; })].amount;
                 if (!stocks) {
                     res.status(403);
                     res.json({
@@ -54,7 +54,7 @@ var stockRemove = function (username, ticker, newAmount, res) { return __awaiter
                     return [2 /*return*/];
                 }
                 if (newAmount === 0) {
-                    newStocks = stocks.stocks.filter(function (StockInterface) { return StockInterface.ticker !== ticker; });
+                    newStocks = stocks.stocks.filter(function (stock) { return stock.ticker !== ticker; });
                 }
                 else if (newAmount > 0) {
                     newStocks = stocks.stocks;
@@ -89,6 +89,7 @@ var stockRemove = function (username, ticker, newAmount, res) { return __awaiter
                     stocks.purchaseHistory[purchasesIndex].purchases = result;
                 }
                 stocks.stocks = newStocks;
+                stocks.purchaseHistory = newPurchaseHistory;
                 return [4 /*yield*/, stocks.save()];
             case 2:
                 _a.sent();

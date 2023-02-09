@@ -60,7 +60,7 @@ function stock_remove(req, res) {
                     _b = auth.split(":"), username = _b[0], token = _b[1];
                     _c.label = 1;
                 case 1:
-                    _c.trys.push([1, 5, , 6]);
+                    _c.trys.push([1, 6, , 7]);
                     decoded = (0, jwt_1.verifyToken)(token);
                     return [4 /*yield*/, user_1.User.findById(decoded.id).exec()];
                 case 2:
@@ -72,20 +72,22 @@ function stock_remove(req, res) {
                         });
                         return [2 /*return*/];
                     }
-                    (0, stockRemove_1.stockRemove)(username, ticker, newAmount, res);
-                    return [4 /*yield*/, (0, updateStocks_1.updateStocks)(username)];
+                    return [4 /*yield*/, (0, stockRemove_1.stockRemove)(username, ticker, newAmount, res)];
                 case 3:
                     _c.sent();
-                    return [4 /*yield*/, (0, getUserStocks_1.getUserStocks)(username)];
+                    return [4 /*yield*/, (0, updateStocks_1.updateStocks)(username)];
                 case 4:
+                    _c.sent();
+                    return [4 /*yield*/, (0, getUserStocks_1.getUserStocks)(username)];
+                case 5:
                     userStocks = _c.sent();
                     res.json(userStocks);
-                    return [3 /*break*/, 6];
-                case 5:
+                    return [3 /*break*/, 7];
+                case 6:
                     error_1 = _c.sent();
                     console.log(error_1);
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
             }
         });
     });

@@ -9,7 +9,7 @@ export const stockRemove = async (
     res: Response
 ) => {
     const stocks = await Stocks.findOne({ username: username }).exec();
-    const currentAmount = stocks.stocks[stocks.stocks.findIndex((StockInterface: StockInterface) => StockInterface.ticker === ticker)].amount;
+    const currentAmount = stocks.stocks[stocks.stocks.findIndex((stock: StockInterface) => stock.ticker === ticker)].amount;
 
     if (!stocks) {
         res.status(403);
@@ -21,13 +21,13 @@ export const stockRemove = async (
 
     let newStocks;
     if (newAmount === 0) {
-        newStocks = stocks.stocks.filter((StockInterface: StockInterface) => StockInterface.ticker !== ticker);
+        newStocks = stocks.stocks.filter((stock: StockInterface) => stock.ticker !== ticker);
     } else if (newAmount > 0) {
         newStocks = stocks.stocks;
         const objIndex = stocks.stocks.findIndex((stocks: StockInterface) => stocks.ticker === ticker);
         newStocks[objIndex].amount = newAmount;
     }
-
+    
     let newPurchaseHistory;
     if (newAmount <= 0) {
         // if newAmount 0, remove stock all-together
@@ -63,6 +63,7 @@ export const stockRemove = async (
     }
 
     stocks.stocks = newStocks;
+    stocks.purchaseHistory = newPurchaseHistory;
 
     await stocks.save();
 }
